@@ -1,0 +1,9 @@
+bin
+obj
+lib
+.vs
+.vscode
+*.csproj
+*.csproj.user
+*.sln
+*.zip
