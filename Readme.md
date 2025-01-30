@@ -1,4 +1,4 @@
-<h3>FundFusion - The Finance Management System</h3>
+<h3><strong style="color: orange;">FundFusion</strong> - The Finance Management System</h3>
 <hr/>
 <h3><strong>Features</strong></h3>
 <br/>
