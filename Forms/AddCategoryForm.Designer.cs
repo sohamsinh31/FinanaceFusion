@@ -1,8 +1,8 @@
 ﻿using System.Windows.Forms;
 
-namespace FundTransfer
+namespace FinanceFusion.Forms
 {
-    partial class Add_Category
+    partial class AddCategoryForm
     {
         /// <summary>
         /// Required designer variable.

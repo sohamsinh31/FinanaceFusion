@@ -9,12 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FundTransfer
+namespace FinanceFusion.Forms
 {
-    public partial class LoginPage : Form
+    public partial class LoginForm : Form
     {
         NpgsqlConnection DBCon = new NpgsqlConnection("Server=cipg01;port=5432;Database=intern_026;UserId=postgres;Password=123456;");
-        public LoginPage(string emailadd)
+        public LoginForm(string emailadd)
         {
             InitializeComponent();
             txtusername.Text = emailadd;
@@ -34,7 +34,7 @@ namespace FundTransfer
         private void button3_Click(object sender, EventArgs e)
         {
             this.Hide();
-            RegistrationPage rgpg = new RegistrationPage();
+            RegistrationForm rgpg = new RegistrationForm();
             rgpg.Show();
         }
 
@@ -69,8 +69,8 @@ namespace FundTransfer
                         if (dtp.Rows.Count > 0)
                         {
                             MessageBox.Show("user is found .... ");
-                            Dashboard dashboard = new Dashboard();
-                            dashboard.Show();
+                            DashboardForm dashboardForm = new DashboardForm();
+                            dashboardForm.Show();
                             this.Hide();
                         }
                         else
@@ -142,8 +142,8 @@ namespace FundTransfer
 
         private void label3_Click_1(object sender, EventArgs e)
         {
-            ForgotePasswordPage forgotePasswordPage = new ForgotePasswordPage();
-            forgotePasswordPage.Show();
+            ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm();
+            forgotPasswordForm.Show();
             this.Hide();
         }
     }

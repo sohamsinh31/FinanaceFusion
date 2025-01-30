@@ -1,6 +1,6 @@
-﻿namespace FundTransfer
+﻿namespace FinanceFusion.Forms
 {
-    partial class ChangePassword
+    partial class ChangePasswordForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangePassword));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangePasswordForm));
             panelLeft = new Panel();
             btnloginpage = new Button();
             label2 = new Label();

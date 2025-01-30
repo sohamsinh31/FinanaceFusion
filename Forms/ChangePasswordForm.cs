@@ -9,12 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FundTransfer
+namespace FinanceFusion.Forms
 {
-    public partial class ChangePassword : Form
+    public partial class ChangePasswordForm : Form
     {
         NpgsqlConnection DBCon = new NpgsqlConnection("Server=cipg01;port=5432;Database=Hirva_CP_TR126;UserId=postgres;Password=123456;");
-        public ChangePassword(string emailadd)
+        public ChangePasswordForm(string emailadd)
         {
             InitializeComponent();
             txtemail.Text = emailadd;
@@ -86,15 +86,15 @@ namespace FundTransfer
 
         private void btnloginpage_Click(object sender, EventArgs e)
         {
-            LoginPage loginPage = new LoginPage("");
-            loginPage.Show();
+            LoginForm loginForm = new LoginForm("");
+            loginForm.Show();
             this.Hide();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            LoginPage loginPage = new LoginPage("");
-            loginPage.Show();
+            LoginForm loginForm = new LoginForm("");
+            loginForm.Show();
             this.Hide();
         }
 

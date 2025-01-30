@@ -13,15 +13,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FundTransfer
+namespace FinanceFusion.Forms
 {
-    public partial class ForgotePasswordPage : Form
+    public partial class ForgotPasswordForm : Form
     {
         NpgsqlConnection DBCon = new NpgsqlConnection("Server=cipg01;port=5432;Database=intern_026;UserId=postgres;Password=123456;");
 
         public string randomcode;
         public static string to;
-        public ForgotePasswordPage()
+        public ForgotPasswordForm()
         {
             InitializeComponent();
         }
@@ -103,7 +103,7 @@ namespace FundTransfer
                 lblerrcode.Visible = false;
                 if (randomcode == txtcode.Text)
                 {
-                    ChangePassword chpswd = new ChangePassword(txtemail.Text);
+                    ChangePasswordForm chpswd = new ChangePasswordForm(txtemail.Text);
                     MessageBox.Show("user is verify");
                     chpswd.Show();
                     this.Hide();
@@ -123,15 +123,15 @@ namespace FundTransfer
 
         private void label1_Click(object sender, EventArgs e)
         {
-            LoginPage loginPage = new LoginPage("");
-            loginPage.Show();
+            LoginForm loginForm = new LoginForm("");
+            loginForm.Show();
             this.Hide();
         }
 
         private void btnloginpage_Click(object sender, EventArgs e)
         {
-            LoginPage loginPage = new LoginPage("");
-            loginPage.Show();
+            LoginForm loginForm = new LoginForm("");
+            loginForm.Show();
             this.Hide();
         }
     }

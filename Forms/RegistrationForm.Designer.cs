@@ -1,15 +1,11 @@
-﻿namespace FundTransfer
+﻿namespace FinanceFusion.Forms
 {
-    partial class RegistrationPage : Form
+    partial class RegistrationForm : Form
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
-        public RegistrationPage()
-        {
-            InitializeComponent();
-        }
 
         /// <summary>
         /// Clean up any resources being used.
@@ -32,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegistrationPage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegistrationForm));
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             button3 = new Button();

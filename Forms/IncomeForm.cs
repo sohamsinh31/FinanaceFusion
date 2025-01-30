@@ -1,8 +1,11 @@
-namespace FundTransfer
+using FinanceFusion.Controllers;
+using FinanceFusion.Models;
+
+namespace FinanceFusion.Forms
 {
-    public partial class IncomeView : Form
+    public partial class IncomeForm : Form
     {
-        public IncomeView()
+        public IncomeForm()
         {
             InitializeComponent();
             FundController.LoadTables(ref dataGridView1, 1);
@@ -39,11 +42,11 @@ namespace FundTransfer
         {
             if (ValidateInputs())
             {
-                Transaction newTransaction = new Transaction
+                TransactionModel newTransaction = new TransactionModel
                 {
                     Amount = decimal.Parse(InIncomeBox.Text),
                     Description = InDescBox.Text,
-                    Date = InDTBox.Value,
+                    // CreatedDateTime = InDTBox.Value,
                     CategoryId = Convert.ToInt32(InCateBox.SelectedValue)
                 };
 
@@ -59,12 +62,12 @@ namespace FundTransfer
             {
                 int transactionId = Convert.ToInt32(InIdBox.Text.ToString());
 
-                Transaction updatedTransaction = new Transaction
+                TransactionModel updatedTransaction = new TransactionModel
                 {
-                    TransactionId = transactionId,
+                    Id = transactionId,
                     Amount = decimal.Parse(InIncomeBox.Text),
                     Description = InDescBox.Text,
-                    Date = InDTBox.Value,
+                    // UpdatedDateTime = DateTime.Parse(InDTBox.Value),
                     CategoryId = Convert.ToInt32(InCateBox.SelectedValue)
                 };
 

@@ -1,6 +1,6 @@
-﻿namespace FundTransfer
+﻿namespace FinanceFusion.Forms
 {
-    partial class ReportView
+    partial class ReportForm
     {
         private System.ComponentModel.IContainer components = null;
 
