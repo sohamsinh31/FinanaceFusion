@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace FundTransfer
+namespace FinanceFusion.Feeders
 {
     public class Theme
     {

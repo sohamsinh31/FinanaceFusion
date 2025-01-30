@@ -9,11 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace FundTransfer
+namespace FinanceFusion.Forms
 {
-    public partial class RegistrationPage
+    public partial class RegistrationForm
     {
         NpgsqlConnection DBCon = new NpgsqlConnection("Server=cipg01;port=5432;Database=intern_026;UserId=postgres;Password=123456;");
+
+        public RegistrationForm()
+        {
+            InitializeComponent();
+        }
 
         private void RegistrationPage_Load(object sender, EventArgs e)
         {
@@ -25,8 +30,8 @@ namespace FundTransfer
         private void button1_Click(object sender, EventArgs e)
         {
             this.Hide();
-            LoginPage lgpg = new LoginPage("");
-            lgpg.Show();
+            LoginForm loginForm = new LoginForm("");
+            loginForm.Show();
         }
 
         private void button3_Click(object sender, EventArgs e)
@@ -82,8 +87,8 @@ namespace FundTransfer
                                     cmd.ExecuteNonQuery();
                                     MessageBox.Show("Register successfully.");
                                     this.Hide();
-                                    LoginPage loginpage = new LoginPage(txtemailadd.Text);
-                                    loginpage.Show();
+                                    LoginForm loginForm = new LoginForm(txtemailadd.Text);
+                                    loginForm.Show();
                                 }
                                 catch (Exception ex)
                                 {

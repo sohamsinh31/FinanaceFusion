@@ -1,6 +1,6 @@
-﻿namespace FundTransfer
+﻿namespace FinanceFusion.Forms
 {
-    partial class IncomeView
+    partial class IncomeForm
     {
         /// <summary>
         ///  Required designer variable.

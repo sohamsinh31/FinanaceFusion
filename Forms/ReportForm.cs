@@ -9,16 +9,16 @@ using System.Windows.Forms.DataVisualization.Charting;
 using Npgsql;
 using OfficeOpenXml; // Requires EPPlus NuGet package
 
-namespace FundTransfer
+namespace FinanceFusion.Forms
 {
-    public partial class ReportView : Form
+    public partial class ReportForm : Form
     {
         private string connectionString = "Server=cipg01;Port=5432;Database=intern088;User Id=postgres;Password=123456;";
         private DataTable incomeData = new DataTable();
         private DataTable expenseData = new DataTable();
         private DataTable allTransactionData = new DataTable();
 
-        public ReportView()
+        public ReportForm()
         {
             InitializeComponent();
             LoadData();

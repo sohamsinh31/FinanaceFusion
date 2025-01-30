@@ -4,13 +4,13 @@ using System.Windows.Forms;
 // using System.Windows.Media;
 using Npgsql;
 
-namespace FundTransfer
+namespace FinanceFusion.Forms
 {
-    public partial class Add_Category : Form
+    public partial class AddCategoryForm : Form
     {
         private NpgsqlConnection con = new NpgsqlConnection("Server=cipg01;Port=5432;Database=intern088;User Id=postgres;Password=123456;");
 
-        public Add_Category()
+        public AddCategoryForm()
         {
             InitializeComponent();
             LoadData();

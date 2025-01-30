@@ -1,6 +1,6 @@
-﻿namespace FundTransfer
+﻿namespace FinanceFusion.Forms
 {
-    partial class ForgotePasswordPage
+    partial class ForgotPasswordForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ForgotePasswordPage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ForgotPasswordForm));
             panel1 = new Panel();
             btnloginpage = new Button();
             label2 = new Label();

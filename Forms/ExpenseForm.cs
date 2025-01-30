@@ -1,6 +1,9 @@
-﻿namespace FundTransfer
+﻿using FinanceFusion.Controllers;
+using FinanceFusion.Models;
+
+namespace FinanceFusion.Forms
 {
-    partial class ExpanceView : Form
+    partial class ExpenseForm : Form
     {
         /// <summary>
         ///  Required designer variable.
@@ -27,7 +30,7 @@
         ///  the contents of this method with the code editor.
         /// </summary>
         /// 
-        public ExpanceView()
+        public ExpenseForm()
         {
             InitializeComponent();
             FundController.LoadTables(ref dataGridView1, 2);
@@ -317,11 +320,11 @@
         {
             if (ValidateInputs())
             {
-                Transaction newTransaction = new Transaction
+                TransactionModel newTransaction = new TransactionModel
                 {
                     Amount = decimal.Parse(ExIncomeBox.Text),
                     Description = ExDescBox.Text,
-                    Date = ExDTBox.Value,
+                    // CreatedDateTime = DateTime.Parse(ExDTBox.Value),
                     CategoryId = Convert.ToInt32(ExCateBox.SelectedValue)
                 };
 
@@ -337,12 +340,12 @@
             {
                 int transactionId = Convert.ToInt32(ExIdBox.Text.ToString());
 
-                Transaction updatedTransaction = new Transaction
+                TransactionModel updatedTransaction = new TransactionModel
                 {
-                    TransactionId = transactionId,
+                    Id = transactionId,
                     Amount = decimal.Parse(ExIncomeBox.Text),
                     Description = ExDescBox.Text,
-                    Date = ExDTBox.Value,
+                    // UpdatedDateTime = DateTime.Parse(ExDTBox.Value),
                     CategoryId = Convert.ToInt32(ExCateBox.SelectedValue)
                 };
 

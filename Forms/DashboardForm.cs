@@ -1,10 +1,8 @@
-using FundTransfer;
-
-namespace FundTransfer
+namespace FinanceFusion.Forms
 {
-    public partial class Dashboard : Form
+    public partial class DashboardForm : Form
     {
-        public Dashboard()
+        public DashboardForm()
         {
             InitializeComponent();
         }
@@ -36,50 +34,50 @@ namespace FundTransfer
 
         private void lblDashboard_Click(object sender, EventArgs e)
         {
-            DashboardRight dashboardRight = new DashboardRight();
-            dashboardRight.TopLevel = false;
-            dashboardRight.FormBorderStyle = FormBorderStyle.None;
-            dashboardRight.Dock = DockStyle.Fill;
+            // DashboardRight dashboardRight = new DashboardRight();
+            // dashboardRight.TopLevel = false;
+            // dashboardRight.FormBorderStyle = FormBorderStyle.None;
+            // dashboardRight.Dock = DockStyle.Fill;
 
-            panel2.Controls.Clear();
-            panel2.Controls.Add(dashboardRight);
-            dashboardRight.Show();
+            // panel2.Controls.Clear();
+            // panel2.Controls.Add(dashboardRight);
+            // dashboardRight.Show();
         }
 
         private void lblCategory_Click(object sender, EventArgs e)
         {
-            Add_Category add_Category = new Add_Category();
-            add_Category.TopLevel = false;
-            add_Category.FormBorderStyle = FormBorderStyle.None;
-            add_Category.Dock = DockStyle.Fill;
+            AddCategoryForm addCategoryForm = new AddCategoryForm();
+            addCategoryForm.TopLevel = false;
+            addCategoryForm.FormBorderStyle = FormBorderStyle.None;
+            addCategoryForm.Dock = DockStyle.Fill;
 
             panel2.Controls.Clear();
-            panel2.Controls.Add(add_Category);
-            add_Category.Show();
+            panel2.Controls.Add(addCategoryForm);
+            addCategoryForm.Show();
         }
 
         private void lblIncome_Click(object sender, EventArgs e)
         {
-            IncomeView incomeView = new IncomeView();
-            incomeView.TopLevel = false;
-            incomeView.FormBorderStyle = FormBorderStyle.None;
-            incomeView.Dock = DockStyle.Fill;
+            IncomeForm incomeForm = new IncomeForm();
+            incomeForm.TopLevel = false;
+            incomeForm.FormBorderStyle = FormBorderStyle.None;
+            incomeForm.Dock = DockStyle.Fill;
 
             panel2.Controls.Clear();
-            panel2.Controls.Add(incomeView);
-            incomeView.Show();
+            panel2.Controls.Add(incomeForm);
+            incomeForm.Show();
         }
 
         private void lblExpenses_Click(object sender, EventArgs e)
         {
-            ExpanceView expanceView = new ExpanceView();
-            expanceView.TopLevel = false;
-            expanceView.FormBorderStyle = FormBorderStyle.None;
-            expanceView.Dock = DockStyle.Fill;
+            ExpenseForm expenseForm = new ExpenseForm();
+            expenseForm.TopLevel = false;
+            expenseForm.FormBorderStyle = FormBorderStyle.None;
+            expenseForm.Dock = DockStyle.Fill;
 
             panel2.Controls.Clear();
-            panel2.Controls.Add(expanceView);
-            expanceView.Show();
+            panel2.Controls.Add(expenseForm);
+            expenseForm.Show();
         }
 
         private void lblLogout_Click(object sender, EventArgs e)
@@ -129,14 +127,14 @@ namespace FundTransfer
 
         private void label1_Click(object sender, EventArgs e)
         {
-            ReportView reportView = new ReportView();
-            reportView.TopLevel = false;
-            reportView.FormBorderStyle = FormBorderStyle.None;
-            reportView.Dock = DockStyle.Fill;
+            ReportForm reportForm = new ReportForm();
+            reportForm.TopLevel = false;
+            reportForm.FormBorderStyle = FormBorderStyle.None;
+            reportForm.Dock = DockStyle.Fill;
 
             panel2.Controls.Clear();
-            panel2.Controls.Add(reportView);
-            reportView.Show();
+            panel2.Controls.Add(reportForm);
+            reportForm.Show();
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)

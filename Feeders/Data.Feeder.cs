@@ -1,6 +1,6 @@
 using Npgsql;
 
-namespace FundTransfer
+namespace FinanceFusion.Feeders
 {
     public class DBFeeder
     {

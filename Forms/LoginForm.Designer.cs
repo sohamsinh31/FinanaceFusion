@@ -1,6 +1,8 @@
-﻿namespace FundTransfer
+﻿using FinanceFusion.Feeders;
+
+namespace FinanceFusion.Forms
 {
-    partial class LoginPage
+    partial class LoginForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginPage));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             panel1 = new Panel();
             btnregisterpage = new Button();
             btnloginpage = new Button();
@@ -253,7 +255,6 @@
             lblerrpasword.Text = "*!..Please enter the Password..!";
             lblerrpasword.Visible = false;
             //Static fields
-            //dfgfbgf
             panel1.BackColor = Theme.LeftPanelColor;
             btnloginpage.BackColor = Theme.BtnColor;
             // label1.ForeColor = Theme.TxtColor;

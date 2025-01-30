@@ -6,8 +6,10 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+// 
+using FinanceFusion.Models;
 
-namespace FundTransfer
+namespace FinanceFusion.Controllers
 {
     public class FundController
     {
@@ -83,7 +85,7 @@ namespace FundTransfer
             }
         }
 
-        public static void InsertTransaction(Transaction transaction)
+        public static void InsertTransaction(TransactionModel transaction)
         {
             try
             {
@@ -98,7 +100,7 @@ namespace FundTransfer
                     {
                         cmd.Parameters.AddWithValue("@amount", transaction.Amount);
                         cmd.Parameters.AddWithValue("@description", transaction.Description);
-                        cmd.Parameters.AddWithValue("@date", transaction.Date);
+                        cmd.Parameters.AddWithValue("@date", transaction.CreatedDateTime);
                         cmd.Parameters.AddWithValue("@categoryId", transaction.CategoryId);
 
                         cmd.ExecuteNonQuery();
@@ -112,7 +114,7 @@ namespace FundTransfer
             }
         }
 
-        public static void UpdateTransaction(Transaction transaction)
+        public static void UpdateTransaction(TransactionModel transaction)
         {
             try
             {
@@ -129,10 +131,10 @@ namespace FundTransfer
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, DBCon))
                     {
-                        cmd.Parameters.AddWithValue("@transactionId", transaction.TransactionId);
+                        cmd.Parameters.AddWithValue("@transactionId", transaction.Id);
                         cmd.Parameters.AddWithValue("@amount", transaction.Amount);
                         cmd.Parameters.AddWithValue("@description", transaction.Description);
-                        cmd.Parameters.AddWithValue("@date", transaction.Date);
+                        cmd.Parameters.AddWithValue("@date", transaction.CreatedDateTime);
                         cmd.Parameters.AddWithValue("@categoryId", transaction.CategoryId);
 
                         cmd.ExecuteNonQuery();
