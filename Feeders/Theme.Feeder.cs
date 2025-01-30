@@ -9,13 +9,17 @@ namespace FundTransfer
 {
     public class Theme
     {
-        public static Color btnColor = Color.FromArgb(20, 53, 197);
-        public static Color btnTxtColor = Color.FromArgb(255, 255, 255);
-        public static Color navColor = Color.FromArgb(20, 53, 197);
-        public static Color bgColor = Color.FromArgb(225, 225, 225);
-        public static Color panelColor = Color.FromArgb(255, 255, 255);
-        public static Size Leftp1Size = new System.Drawing.Size(250, 588);
-        public static Size Inp2Size = new System.Drawing.Size(872, 316);
-        public static Size Inp3Size = new System.Drawing.Size(872, 251);
+        public static Color BtnColor = Color.FromArgb(20, 53, 197);
+        public static Color BtnTxtColor = Color.FromArgb(255, 255, 255);
+        public static Color TxtColor = Color.FromArgb(255, 255, 255);
+        public static Color NavColor = Color.FromArgb(20, 53, 197);
+        public static Color BGColor = Color.FromArgb(225, 225, 225);
+        public static Color PanelColor = Color.FromArgb(255, 255, 255);
+        public static Size LeftPanelSize = new Size(250, 588);
+        public static Color LeftPanelColor = Color.FromArgb(44, 48, 84);
+        public static Font HeadingFont = new Font("Segoe UI", 14F);
+        public static Font InputFont = new Font("Segoe UI", 11F);
+        public static Font LabelFont = new Font("Segoe UI", 12F);
+        public static Size WindowSize = new Size(1360, 722);
     }
 }

@@ -252,6 +252,13 @@
             lblerrpasword.TabIndex = 17;
             lblerrpasword.Text = "*!..Please enter the Password..!";
             lblerrpasword.Visible = false;
+            //Static fields
+            //dfgfbgf
+            panel1.BackColor = Theme.LeftPanelColor;
+            btnloginpage.BackColor = Theme.BtnColor;
+            // label1.ForeColor = Theme.TxtColor;
+            label2.ForeColor = Theme.TxtColor;
+
             // 
             // LoginPage
             // 
