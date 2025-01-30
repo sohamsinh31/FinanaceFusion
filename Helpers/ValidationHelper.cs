@@ -36,6 +36,11 @@ namespace FinanceFusion.Helpers
                    Regex.IsMatch(password, @"[\W_]");     // At least one special character
         }
 
+        public static bool IsValidLoginPassword(string password)
+        {
+            return !string.IsNullOrWhiteSpace(password) && password.Length >= 6;
+        }
+
         /// <summary>
         /// Checks if the password and confirm password match.
         /// </summary>

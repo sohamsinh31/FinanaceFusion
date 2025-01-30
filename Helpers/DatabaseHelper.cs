@@ -65,5 +65,48 @@ namespace FinanceFusion.Helpers
                 return cmd.ExecuteScalar();
             }
         }
+
+        public static bool ValidateLogin(string email, string password)
+        {
+            using (var connection = new NpgsqlConnection(ConnectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = "SELECT COUNT(*) FROM t_users WHERE c_email = @c_email AND c_password = @c_password AND c_is_active = TRUE";
+                    using (var cmd = new NpgsqlCommand(query, connection))
+                    {
+                        cmd.Parameters.AddWithValue("@c_email", email);
+                        cmd.Parameters.AddWithValue("@c_password", password);
+
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
+                        return count > 0;  // Returns true if user exists, false otherwise
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+            }
+        }
+
+
+        public static bool ValidateUserExists(string email)
+        {
+            using (var connection = new NpgsqlConnection(ConnectionString))
+            {
+                connection.Open();
+                string query = "SELECT COUNT(*) FROM t_users WHERE c_email = @c_email";
+                using (var cmd = new NpgsqlCommand(query, connection))
+                {
+                    cmd.Parameters.AddWithValue("@c_email", email);
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count > 0;
+                }
+            }
+        }
+
     }
 }
