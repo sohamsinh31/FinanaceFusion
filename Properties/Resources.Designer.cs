@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace FundTransfer.Properties
+namespace FinanceFusion.Properties
 {
     using System;
 
@@ -67,23 +67,6 @@ namespace FundTransfer.Properties
             {
                 resourceCulture = value;
             }
-        }
-
-
-        [global::System.Configuration.UserScopedSetting()]
-        [global::System.Diagnostics.DebuggerNonUserCode()]
-        public string UserEmail
-        {
-            get { return ((string)(this["UserEmail"])); }
-            set { this["UserEmail"] = value; }
-        }
-
-        [global::System.Configuration.UserScopedSetting()]
-        [global::System.Diagnostics.DebuggerNonUserCode()]
-        public bool IsRemembered
-        {
-            get { return ((bool)(this["IsRemembered"])); }
-            set { this["IsRemembered"] = value; }
         }
     }
 }

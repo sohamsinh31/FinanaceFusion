@@ -52,9 +52,9 @@ namespace FinanceFusion.Forms
                 if (DatabaseHelper.ValidateLogin(txtusername.Text, txtpswd.Text))
                 {
                     // Store credentials in app settings
-                    Properties.Settings.Default.UserEmail = txtusername.Text;
-                    Properties.Settings.Default.IsRemembered = true;
-                    Properties.Settings.Default.Save();
+                    // Properties.Settings.Default.UserEmail = txtusername.Text;
+                    // Properties.Settings.Default.IsRemembered = true;
+                    // Properties.Settings.Default.Save();
 
                     MessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     new DashboardForm().Show();
