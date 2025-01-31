@@ -32,7 +32,7 @@ namespace FinanceFusion.Forms
             //this.Hide();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Registration_Click(object sender, EventArgs e)
         {
             this.Hide();
             RegistrationForm rgpg = new RegistrationForm();
@@ -43,13 +43,13 @@ namespace FinanceFusion.Forms
         {
         }
 
-        private void btnlogin_Click(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
             if (!ValidateInputs()) return;
 
             try
             {
-                if (DatabaseHelper.ValidateLogin(txtusername.Text, txtpswd.Text))
+                if (DatabaseHelper.ValidateLogin(txtEmail.Text, txtPassword.Text))
                 {
                     // Store credentials in app settings
                     // Properties.Settings.Default.UserEmail = txtusername.Text;

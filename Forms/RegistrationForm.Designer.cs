@@ -32,23 +32,23 @@
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             button3 = new Button();
-            button1 = new Button();
-            label2 = new Label();
-            btnsignup = new Button();
-            txtpswd = new TextBox();
+            btnSignIN = new Button();
+            lblTitle = new Label();
+            btnSignUp = new Button();
+            txtPassword = new TextBox();
             label6 = new Label();
-            txtfname = new TextBox();
+            txtFirstName = new TextBox();
             label5 = new Label();
             label4 = new Label();
             label1 = new Label();
-            txtconpswd = new TextBox();
+            txtConPassword = new TextBox();
             lblconpswd = new Label();
-            txtemailadd = new TextBox();
+            txtEmail = new TextBox();
             label7 = new Label();
-            txtlname = new TextBox();
+            txtLastName = new TextBox();
             label3 = new Label();
             lblerrpasword = new Label();
-            checkBox1 = new CheckBox();
+            chkShowPassword = new CheckBox();
             lblerrfnlname = new Label();
             lblerremailadd = new Label();
             lblerrconpswd = new Label();
@@ -97,65 +97,65 @@
             button3.UseVisualStyleBackColor = false;
             button3.Click += button3_Click;
             // 
-            // button1
+            // btnSignIn
             // 
-            button1.BackColor = Color.Green;
-            button1.Cursor = Cursors.Hand;
-            button1.FlatAppearance.BorderSize = 0;
-            button1.FlatAppearance.MouseDownBackColor = Color.Green;
-            button1.FlatAppearance.MouseOverBackColor = Color.Green;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(13, 504);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(236, 49);
-            button1.TabIndex = 10;
-            button1.Text = "SIGN IN";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            btnSignIN.BackColor = Color.Green;
+            btnSignIN.Cursor = Cursors.Hand;
+            btnSignIN.FlatAppearance.BorderSize = 0;
+            btnSignIN.FlatAppearance.MouseDownBackColor = Color.Green;
+            btnSignIN.FlatAppearance.MouseOverBackColor = Color.Green;
+            btnSignIN.FlatStyle = FlatStyle.Flat;
+            btnSignIN.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSignIN.ForeColor = Color.White;
+            btnSignIN.Location = new Point(13, 504);
+            btnSignIN.Margin = new Padding(3, 4, 3, 4);
+            btnSignIN.Name = "button1";
+            btnSignIN.Size = new Size(236, 49);
+            btnSignIN.TabIndex = 10;
+            btnSignIN.Text = "SIGN IN";
+            btnSignIN.UseVisualStyleBackColor = false;
+            btnSignIN.Click += Login_Click;
             // 
-            // label2
+            // lblTitle
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Microsoft PhagsPa", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(13, 264);
-            label2.Name = "label2";
-            label2.Size = new Size(236, 22);
-            label2.TabIndex = 1;
-            label2.Text = "Income and Expenses Traker";
+            lblTitle.AutoSize = true;
+            lblTitle.Font = new Font("Microsoft PhagsPa", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Location = new Point(13, 264);
+            lblTitle.Name = "label2";
+            lblTitle.Size = new Size(236, 22);
+            lblTitle.TabIndex = 1;
+            lblTitle.Text = "Income and Expenses Traker";
             // 
             // btnsignup
             // 
-            btnsignup.BackColor = Color.Green;
-            btnsignup.Cursor = Cursors.Hand;
-            btnsignup.FlatAppearance.MouseDownBackColor = Color.Green;
-            btnsignup.FlatAppearance.MouseOverBackColor = Color.Green;
-            btnsignup.FlatStyle = FlatStyle.Flat;
-            btnsignup.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnsignup.ForeColor = Color.White;
-            btnsignup.Location = new Point(331, 488);
-            btnsignup.Margin = new Padding(3, 4, 3, 4);
-            btnsignup.Name = "btnsignup";
-            btnsignup.Size = new Size(277, 49);
-            btnsignup.TabIndex = 14;
-            btnsignup.Text = "SIGNUP";
-            btnsignup.UseVisualStyleBackColor = false;
-            btnsignup.Click += button2_Click;
+            btnSignUp.BackColor = Color.Green;
+            btnSignUp.Cursor = Cursors.Hand;
+            btnSignUp.FlatAppearance.MouseDownBackColor = Color.Green;
+            btnSignUp.FlatAppearance.MouseOverBackColor = Color.Green;
+            btnSignUp.FlatStyle = FlatStyle.Flat;
+            btnSignUp.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSignUp.ForeColor = Color.White;
+            btnSignUp.Location = new Point(331, 488);
+            btnSignUp.Margin = new Padding(3, 4, 3, 4);
+            btnSignUp.Name = "btnsignup";
+            btnSignUp.Size = new Size(277, 49);
+            btnSignUp.TabIndex = 14;
+            btnSignUp.Text = "SIGNUP";
+            btnSignUp.UseVisualStyleBackColor = false;
+            btnSignUp.Click += Register_Click;
             // 
-            // txtpswd
+            // txtPassword
             // 
-            txtpswd.BackColor = SystemColors.Window;
-            txtpswd.BorderStyle = BorderStyle.FixedSingle;
-            txtpswd.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtpswd.Location = new Point(306, 319);
-            txtpswd.Margin = new Padding(3, 4, 3, 4);
-            txtpswd.Name = "txtpswd";
-            txtpswd.PasswordChar = '*';
-            txtpswd.Size = new Size(315, 24);
-            txtpswd.TabIndex = 20;
+            txtPassword.BackColor = SystemColors.Window;
+            txtPassword.BorderStyle = BorderStyle.FixedSingle;
+            txtPassword.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPassword.Location = new Point(306, 319);
+            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Name = "txtpswd";
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new Size(315, 24);
+            txtPassword.TabIndex = 20;
             // 
             // label6
             // 
@@ -167,17 +167,17 @@
             label6.TabIndex = 19;
             label6.Text = "Password";
             // 
-            // txtfname
+            // txtFirstName
             // 
-            txtfname.BackColor = SystemColors.Window;
-            txtfname.BorderStyle = BorderStyle.FixedSingle;
-            txtfname.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtfname.Location = new Point(309, 167);
-            txtfname.Margin = new Padding(3, 4, 3, 4);
-            txtfname.Name = "txtfname";
-            txtfname.Size = new Size(142, 24);
-            txtfname.TabIndex = 18;
-            txtfname.TextChanged += txtuser_TextChanged;
+            txtFirstName.BackColor = SystemColors.Window;
+            txtFirstName.BorderStyle = BorderStyle.FixedSingle;
+            txtFirstName.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtFirstName.Location = new Point(309, 167);
+            txtFirstName.Margin = new Padding(3, 4, 3, 4);
+            txtFirstName.Name = "txtfname";
+            txtFirstName.Size = new Size(142, 24);
+            txtFirstName.TabIndex = 18;
+            txtFirstName.TextChanged += txtuser_TextChanged;
             // 
             // label5
             // 
@@ -211,15 +211,14 @@
             // 
             // txtconpswd
             // 
-            txtconpswd.BackColor = SystemColors.Window;
-            txtconpswd.BorderStyle = BorderStyle.FixedSingle;
-            txtconpswd.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtconpswd.Location = new Point(309, 395);
-            txtconpswd.Margin = new Padding(3, 4, 3, 4);
-            txtconpswd.Name = "txtconpswd";
-            txtconpswd.PasswordChar = '*';
-            txtconpswd.Size = new Size(315, 24);
-            txtconpswd.TabIndex = 22;
+        txtConPassword.BackColor = SystemColors.Window;
+        txtConPassword.BorderStyle = BorderStyle.FixedSingle;
+        txtConPassword.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+        txtConPassword.Location = new Point(309, 395);
+        txtConPassword.Margin = new Padding(3, 4, 3, 4);
+        txtConPassword.Name = "txtconpswd";
+        txtConPassword.Size = new Size(315, 24);
+        txtConPassword.TabIndex = 22;
             // 
             // lblconpswd
             // 
@@ -233,14 +232,14 @@
             // 
             // txtemailadd
             // 
-            txtemailadd.BackColor = SystemColors.Window;
-            txtemailadd.BorderStyle = BorderStyle.FixedSingle;
-            txtemailadd.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtemailadd.Location = new Point(306, 243);
-            txtemailadd.Margin = new Padding(3, 4, 3, 4);
-            txtemailadd.Name = "txtemailadd";
-            txtemailadd.Size = new Size(315, 24);
-            txtemailadd.TabIndex = 24;
+            txtEmail.BackColor = SystemColors.Window;
+            txtEmail.BorderStyle = BorderStyle.FixedSingle;
+            txtEmail.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtEmail.Location = new Point(306, 243);
+            txtEmail.Margin = new Padding(3, 4, 3, 4);
+            txtEmail.Name = "txtemailadd";
+            txtEmail.Size = new Size(315, 24);
+            txtEmail.TabIndex = 24;
             // 
             // label7
             // 
@@ -254,14 +253,14 @@
             // 
             // txtlname
             // 
-            txtlname.BackColor = SystemColors.Window;
-            txtlname.BorderStyle = BorderStyle.FixedSingle;
-            txtlname.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtlname.Location = new Point(479, 167);
-            txtlname.Margin = new Padding(3, 4, 3, 4);
-            txtlname.Name = "txtlname";
-            txtlname.Size = new Size(142, 24);
-            txtlname.TabIndex = 25;
+            txtLastName.BackColor = SystemColors.Window;
+            txtLastName.BorderStyle = BorderStyle.FixedSingle;
+            txtLastName.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtLastName.Location = new Point(479, 167);
+            txtLastName.Margin = new Padding(3, 4, 3, 4);
+            txtLastName.Name = "txtlname";
+            txtLastName.Size = new Size(142, 24);
+            txtLastName.TabIndex = 25;
             // 
             // label3
             // 
@@ -286,17 +285,17 @@
             // 
             // checkBox1
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Cursor = Cursors.Hand;
-            checkBox1.Font = new Font("Microsoft PhagsPa", 9F);
-            checkBox1.Location = new Point(491, 446);
-            checkBox1.Margin = new Padding(3, 4, 3, 4);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(133, 24);
-            checkBox1.TabIndex = 27;
-            checkBox1.Text = "Show Password";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            chkShowPassword.AutoSize = true;
+            chkShowPassword.Cursor = Cursors.Hand;
+            chkShowPassword.Font = new Font("Microsoft PhagsPa", 9F);
+            chkShowPassword.Location = new Point(491, 446);
+            chkShowPassword.Margin = new Padding(3, 4, 3, 4);
+            chkShowPassword.Name = "checkBox1";
+            chkShowPassword.Size = new Size(133, 24);
+            chkShowPassword.TabIndex = 27;
+            chkShowPassword.Text = "Show Password";
+            chkShowPassword.UseVisualStyleBackColor = true;
+            chkShowPassword.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // lblerrfnlname
             // 
@@ -341,17 +340,17 @@
             Controls.Add(lblerremailadd);
             Controls.Add(lblerrfnlname);
             Controls.Add(lblerrpasword);
-            Controls.Add(checkBox1);
+            Controls.Add(chkShowPassword);
             Controls.Add(label3);
-            Controls.Add(txtlname);
-            Controls.Add(txtemailadd);
+            Controls.Add(txtLastName);
+            Controls.Add(txtEmail);
             Controls.Add(label7);
-            Controls.Add(txtconpswd);
+            Controls.Add(txtConPassword);
             Controls.Add(lblconpswd);
             Controls.Add(label6);
-            Controls.Add(txtpswd);
-            Controls.Add(btnsignup);
-            Controls.Add(txtfname);
+            Controls.Add(txtPassword);
+            Controls.Add(btnSignUp);
+            Controls.Add(txtFirstName);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(label1);
@@ -371,25 +370,25 @@
         #endregion
 
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button btnsignup;
-        private System.Windows.Forms.TextBox txtpswd;
+        private System.Windows.Forms.Button btnSignIN;
+        private System.Windows.Forms.Button btnSignUp;
+        private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtfname;
+        private System.Windows.Forms.TextBox txtFirstName;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtconpswd;
+        private System.Windows.Forms.TextBox txtConPassword;
         private System.Windows.Forms.Label lblconpswd;
         private PictureBox pictureBox1;
-        private TextBox txtemailadd;
+        private TextBox txtEmail;
         private Label label7;
-        private TextBox txtlname;
+        private TextBox txtLastName;
         private Label label3;
         private Label lblerrpasword;
-        private CheckBox checkBox1;
+        private CheckBox chkShowPassword;
         private Label lblerrfnlname;
         private Label lblerremailadd;
         private Label lblerrconpswd;
