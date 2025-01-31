@@ -4,6 +4,7 @@ using System.Data;
 using FinanceFusion.Helpers;
 
 using Npgsql;
+using FinanceFusion.Models;
 
 namespace FinanceFusion.Forms
 {
@@ -49,43 +50,39 @@ namespace FinanceFusion.Forms
             }
 
             DataGridViewRow row = CategoryData.SelectedRows[0];
-            int categoryId = Convert.ToInt32(row.Cells["c_category_id"].Value);
-            string categoryName = txtBox_Name.Text;
+            CategoryModel categoryModel = new CategoryModel();
+            categoryModel.Id = Convert.ToInt32(row.Cells["c_category_id"].Value);
+            categoryModel.CategoryName = txtBox_Name.Text;
             string typeName = cmb_type.Text;
-            int categoryTypeId = GetTypeId(typeName);
+            categoryModel.TypeId = GetTypeId(typeName);
 
-            if (categoryTypeId == -1)
+            if (categoryModel.TypeId == -1)
             {
                 MessageBox.Show("Invalid category type. Please select a valid type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            try
+            using (NpgsqlCommand cmd = new NpgsqlCommand("UPDATE t_categories SET c_category_name = @name, c_type_id = @type, c_date_updated = NOW() WHERE c_category_id = @id", con))
             {
-                string query = @"UPDATE 
-                    t_categories 
-                SET 
-                    c_category_name = @name, c_type_id = @type, c_date_updated = NOW()
-                WHERE 
-                    c_category_id = @id";
-                NpgsqlParameter[] parameters = {
-                    new NpgsqlParameter("@name", categoryName),
-                    new NpgsqlParameter("@type", categoryTypeId),
-                    new NpgsqlParameter("@id", categoryId),
-                };
-
-                int affectedRows = DatabaseHelper.ExecuteNonQuery(query, parameters);
-                MessageBox.Show("Category updated successfully!");
+                try
+                {
+                    con.Open();
+                    cmd.Parameters.AddWithValue("@name", categoryModel.CategoryName);
+                    cmd.Parameters.AddWithValue("@type", categoryModel.TypeId);
+                    cmd.Parameters.AddWithValue("@id", categoryModel.Id);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Category updated successfully!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                    LoadData();
+                }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                LoadData();
-            }
-
         }
 
 
