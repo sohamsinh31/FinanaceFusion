@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="epplus" Version="7.5.3" />
     <PackageReference Include="npgsql" Version="9.0.2" />
     <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />

@@ -95,7 +95,6 @@
             button3.TabIndex = 11;
             button3.Text = "REGISTER HERE";
             button3.UseVisualStyleBackColor = false;
-            button3.Click += button3_Click;
             // 
             // btnSignIn
             // 
@@ -177,7 +176,7 @@
             txtFirstName.Name = "txtfname";
             txtFirstName.Size = new Size(142, 24);
             txtFirstName.TabIndex = 18;
-            txtFirstName.TextChanged += txtuser_TextChanged;
+            // txtFirstName.TextChanged += txtuser_TextChanged;
             // 
             // label5
             // 
@@ -207,7 +206,7 @@
             label1.Size = new Size(18, 20);
             label1.TabIndex = 15;
             label1.Text = "X";
-            label1.Click += label1_Click_1;
+            // label1.Click += label1_Click_1;
             // 
             // txtconpswd
             // 
