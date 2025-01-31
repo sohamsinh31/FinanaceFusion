@@ -39,14 +39,14 @@ namespace FinanceFusion.Forms
             label1 = new Label();
             label4 = new Label();
             label5 = new Label();
-            txtusername = new TextBox();
-            txtpswd = new TextBox();
+            txtEmail = new TextBox();
+            txtPassword = new TextBox();
             label6 = new Label();
-            btnlogin = new Button();
-            checkBox1 = new CheckBox();
+            btnLogin = new Button();
+            chkShowPassword = new CheckBox();
             label3 = new Label();
-            lblerrusername = new Label();
-            lblerrpasword = new Label();
+            lblErrEmail = new Label();
+            lblErrPassword = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
@@ -76,7 +76,7 @@ namespace FinanceFusion.Forms
             btnregisterpage.ForeColor = Color.White;
             btnregisterpage.Location = new Point(13, 448);
             btnregisterpage.Margin = new Padding(3, 4, 3, 4);
-            btnregisterpage.Name = "btnregisterpage";
+            btnregisterpage.Name = "btnRegisterForm";
             btnregisterpage.Size = new Size(236, 49);
             btnregisterpage.TabIndex = 6;
             btnregisterpage.Text = "REGISTER HERE";
@@ -93,7 +93,7 @@ namespace FinanceFusion.Forms
             btnloginpage.ForeColor = Color.White;
             btnloginpage.Location = new Point(13, 504);
             btnloginpage.Margin = new Padding(3, 4, 3, 4);
-            btnloginpage.Name = "btnloginpage";
+            btnloginpage.Name = "btnLoginForm";
             btnloginpage.Size = new Size(236, 49);
             btnloginpage.TabIndex = 4;
             btnloginpage.Text = "SIGN IN";
@@ -106,7 +106,7 @@ namespace FinanceFusion.Forms
             label2.Font = new Font("Microsoft PhagsPa", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.ForeColor = Color.White;
             label2.Location = new Point(13, 264);
-            label2.Name = "label2";
+            label2.Name = "lblTitle";
             label2.Size = new Size(236, 22);
             label2.TabIndex = 1;
             label2.Text = "Income and Expenses Traker";
@@ -127,7 +127,7 @@ namespace FinanceFusion.Forms
             label1.AutoSize = true;
             label1.Cursor = Cursors.Hand;
             label1.Location = new Point(617, 9);
-            label1.Name = "label1";
+            label1.Name = "lblCancel";
             label1.Size = new Size(18, 20);
             label1.TabIndex = 7;
             label1.Text = "X";
@@ -138,7 +138,7 @@ namespace FinanceFusion.Forms
             label4.AutoSize = true;
             label4.Font = new Font("Microsoft Sans Serif", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(301, 84);
-            label4.Name = "label4";
+            label4.Name = "lblSignIn";
             label4.Size = new Size(104, 29);
             label4.TabIndex = 8;
             label4.Text = "SIGN IN";
@@ -148,76 +148,76 @@ namespace FinanceFusion.Forms
             label5.AutoSize = true;
             label5.Font = new Font("Microsoft PhagsPa", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label5.Location = new Point(302, 154);
-            label5.Name = "label5";
+            label5.Name = "lblEmail";
             label5.Size = new Size(97, 20);
             label5.TabIndex = 9;
             label5.Text = "Email Addres";
             // 
-            // txtusername
+            // txtEmail
             // 
-            txtusername.BackColor = SystemColors.Window;
-            txtusername.BorderStyle = BorderStyle.FixedSingle;
-            txtusername.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtusername.Location = new Point(306, 182);
-            txtusername.Margin = new Padding(3, 4, 3, 4);
-            txtusername.Name = "txtusername";
-            txtusername.Size = new Size(315, 24);
-            txtusername.TabIndex = 11;
+            txtEmail.BackColor = SystemColors.Window;
+            txtEmail.BorderStyle = BorderStyle.FixedSingle;
+            txtEmail.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtEmail.Location = new Point(306, 182);
+            txtEmail.Margin = new Padding(3, 4, 3, 4);
+            txtEmail.Name = "txtEmail";
+            txtEmail.Size = new Size(315, 24);
+            txtEmail.TabIndex = 11;
             // 
             // txtpswd
             // 
-            txtpswd.AccessibleRole = AccessibleRole.None;
-            txtpswd.BackColor = SystemColors.Window;
-            txtpswd.BorderStyle = BorderStyle.FixedSingle;
-            txtpswd.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtpswd.Location = new Point(306, 260);
-            txtpswd.Margin = new Padding(3, 4, 3, 4);
-            txtpswd.Name = "txtpswd";
-            txtpswd.PasswordChar = '*';
-            txtpswd.Size = new Size(315, 24);
-            txtpswd.TabIndex = 13;
+            txtPassword.AccessibleRole = AccessibleRole.None;
+            txtPassword.BackColor = SystemColors.Window;
+            txtPassword.BorderStyle = BorderStyle.FixedSingle;
+            txtPassword.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPassword.Location = new Point(306, 260);
+            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
+            txtPassword.Size = new Size(315, 24);
+            txtPassword.TabIndex = 13;
             // 
             // label6
             // 
             label6.AutoSize = true;
             label6.Font = new Font("Microsoft PhagsPa", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label6.Location = new Point(302, 231);
-            label6.Name = "label6";
+            label6.Name = "lblPassword";
             label6.Size = new Size(71, 20);
             label6.TabIndex = 12;
             label6.Text = "Password";
             // 
             // btnlogin
             // 
-            btnlogin.BackColor = Color.Green;
-            btnlogin.Cursor = Cursors.Hand;
-            btnlogin.FlatAppearance.MouseDownBackColor = Color.Green;
-            btnlogin.FlatAppearance.MouseOverBackColor = Color.Green;
-            btnlogin.FlatStyle = FlatStyle.Flat;
-            btnlogin.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnlogin.ForeColor = Color.White;
-            btnlogin.Location = new Point(327, 404);
-            btnlogin.Margin = new Padding(3, 4, 3, 4);
-            btnlogin.Name = "btnlogin";
-            btnlogin.Size = new Size(277, 49);
-            btnlogin.TabIndex = 5;
-            btnlogin.Text = "LOGIN";
-            btnlogin.UseVisualStyleBackColor = false;
-            btnlogin.Click += btnlogin_Click;
+            btnLogin.BackColor = Color.Green;
+            btnLogin.Cursor = Cursors.Hand;
+            btnLogin.FlatAppearance.MouseDownBackColor = Color.Green;
+            btnLogin.FlatAppearance.MouseOverBackColor = Color.Green;
+            btnLogin.FlatStyle = FlatStyle.Flat;
+            btnLogin.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnLogin.ForeColor = Color.White;
+            btnLogin.Location = new Point(327, 404);
+            btnLogin.Margin = new Padding(3, 4, 3, 4);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(277, 49);
+            btnLogin.TabIndex = 5;
+            btnLogin.Text = "LOGIN";
+            btnLogin.UseVisualStyleBackColor = false;
+            btnLogin.Click += btnlogin_Click;
             // 
             // checkBox1
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Cursor = Cursors.Hand;
-            checkBox1.Font = new Font("Microsoft PhagsPa", 9F);
-            checkBox1.Location = new Point(488, 311);
-            checkBox1.Margin = new Padding(3, 4, 3, 4);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(133, 24);
-            checkBox1.TabIndex = 14;
-            checkBox1.Text = "Show Password";
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            chkShowPassword.AutoSize = true;
+            chkShowPassword.Cursor = Cursors.Hand;
+            chkShowPassword.Font = new Font("Microsoft PhagsPa", 9F);
+            chkShowPassword.Location = new Point(488, 311);
+            chkShowPassword.Margin = new Padding(3, 4, 3, 4);
+            chkShowPassword.Name = "chkShowPassword";
+            chkShowPassword.Size = new Size(133, 24);
+            chkShowPassword.TabIndex = 14;
+            chkShowPassword.Text = "Show Password";
+            chkShowPassword.UseVisualStyleBackColor = true;
+            chkShowPassword.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // label3
             // 
@@ -227,7 +227,7 @@ namespace FinanceFusion.Forms
             label3.Font = new Font("Microsoft PhagsPa", 9F, FontStyle.Underline, GraphicsUnit.Point, 0);
             label3.ForeColor = Color.Blue;
             label3.Location = new Point(401, 359);
-            label3.Name = "label3";
+            label3.Name = "lblForgotPassword";
             label3.Size = new Size(119, 20);
             label3.TabIndex = 15;
             label3.Text = "Forgot Password";
@@ -235,25 +235,25 @@ namespace FinanceFusion.Forms
             // 
             // lblerrusername
             // 
-            lblerrusername.AutoSize = true;
-            lblerrusername.ForeColor = Color.Red;
-            lblerrusername.Location = new Point(306, 209);
-            lblerrusername.Name = "lblerrusername";
-            lblerrusername.Size = new Size(228, 20);
-            lblerrusername.TabIndex = 16;
-            lblerrusername.Text = "*!..Please enter the EmailAddres..!";
-            lblerrusername.Visible = false;
+            lblErrEmail.AutoSize = true;
+            lblErrEmail.ForeColor = Color.Red;
+            lblErrEmail.Location = new Point(306, 209);
+            lblErrEmail.Name = "lblErrEmail";
+            lblErrEmail.Size = new Size(228, 20);
+            lblErrEmail.TabIndex = 16;
+            lblErrEmail.Text = "*!..Please enter the EmailAddres..!";
+            lblErrEmail.Visible = false;
             // 
             // lblerrpasword
             // 
-            lblerrpasword.AutoSize = true;
-            lblerrpasword.ForeColor = Color.Red;
-            lblerrpasword.Location = new Point(306, 288);
-            lblerrpasword.Name = "lblerrpasword";
-            lblerrpasword.Size = new Size(205, 20);
-            lblerrpasword.TabIndex = 17;
-            lblerrpasword.Text = "*!..Please enter the Password..!";
-            lblerrpasword.Visible = false;
+            lblErrPassword.AutoSize = true;
+            lblErrPassword.ForeColor = Color.Red;
+            lblErrPassword.Location = new Point(306, 288);
+            lblErrPassword.Name = "lblErrPassword";
+            lblErrPassword.Size = new Size(205, 20);
+            lblErrPassword.TabIndex = 17;
+            lblErrPassword.Text = "*!..Please enter the Password..!";
+            lblErrPassword.Visible = false;
             //Static fields
             panel1.BackColor = Theme.LeftPanelColor;
             btnloginpage.BackColor = Theme.BtnColor;
@@ -267,14 +267,14 @@ namespace FinanceFusion.Forms
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(647, 562);
-            Controls.Add(lblerrpasword);
-            Controls.Add(lblerrusername);
+            Controls.Add(lblErrPassword);
+            Controls.Add(lblErrEmail);
             Controls.Add(label3);
-            Controls.Add(checkBox1);
-            Controls.Add(btnlogin);
-            Controls.Add(txtpswd);
+            Controls.Add(chkShowPassword);
+            Controls.Add(btnLogin);
+            Controls.Add(txtPassword);
             Controls.Add(label6);
-            Controls.Add(txtusername);
+            Controls.Add(txtEmail);
             Controls.Add(label5);
             Controls.Add(label4);
             Controls.Add(panel1);
@@ -299,14 +299,14 @@ namespace FinanceFusion.Forms
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtusername;
-        private System.Windows.Forms.TextBox txtpswd;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Button btnlogin;
+        private System.Windows.Forms.Button btnLogin;
         private System.Windows.Forms.Button btnregisterpage;
-        private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.CheckBox chkShowPassword;
         private Label label3;
-        private Label lblerrusername;
-        private Label lblerrpasword;
+        private Label lblErrEmail;
+        private Label lblErrPassword;
     }
 }
