@@ -81,7 +81,7 @@ namespace FinanceFusion.Forms
             btnregisterpage.TabIndex = 6;
             btnregisterpage.Text = "REGISTER HERE";
             btnregisterpage.UseVisualStyleBackColor = false;
-            btnregisterpage.Click += button3_Click;
+            btnregisterpage.Click += Registration_Click;
             // 
             // btnloginpage
             // 
@@ -98,7 +98,7 @@ namespace FinanceFusion.Forms
             btnloginpage.TabIndex = 4;
             btnloginpage.Text = "SIGN IN";
             btnloginpage.UseVisualStyleBackColor = false;
-            btnloginpage.Click += button1_Click;
+            btnloginpage.Click += btnLogin_Click;
             // 
             // label2
             // 
@@ -203,7 +203,7 @@ namespace FinanceFusion.Forms
             btnLogin.TabIndex = 5;
             btnLogin.Text = "LOGIN";
             btnLogin.UseVisualStyleBackColor = false;
-            btnLogin.Click += btnlogin_Click;
+            btnLogin.Click += btnLogin_Click;
             // 
             // checkBox1
             // 
@@ -231,7 +231,7 @@ namespace FinanceFusion.Forms
             label3.Size = new Size(119, 20);
             label3.TabIndex = 15;
             label3.Text = "Forgot Password";
-            label3.Click += label3_Click_1;
+            label3.Click += ForgotPassword_Click;
             // 
             // lblerrusername
             // 
