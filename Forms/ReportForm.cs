@@ -18,9 +18,12 @@ namespace FinanceFusion.Forms
         private DataTable expenseData = new DataTable();
         private DataTable allTransactionData = new DataTable();
 
+
         public ReportForm()
         {
             InitializeComponent();
+            ToolStripComboBox cmbMonthSelect = (ToolStripComboBox)toolStrip1.Items["cmbMonthSelect"];
+            cmbMonthSelect.SelectedIndexChanged += cmbMonthSelect_SelectedIndexChanged;
             LoadData();
         }
 
@@ -69,43 +72,6 @@ namespace FinanceFusion.Forms
                 MessageBox.Show("Error loading data: " + ex.Message);
             }
         }
-
-        private void UpdateCharts()
-        {
-            BarChart.Series.Clear();
-            IncomeChart.Series.Clear();
-
-            // Calculate total income and expenses
-            var totalIncome = incomeData.AsEnumerable().Sum(row => row.Field<decimal>("Amount"));
-            var totalExpenses = expenseData.AsEnumerable().Sum(row => row.Field<decimal>("Amount"));
-
-            // Bar Chart: Income vs Expenses (Vertical)
-            var seriesBar = new Series("Income vs Expenses")
-            {
-                ChartType = SeriesChartType.Bar // Bar chart is vertical by default
-            };
-            seriesBar.Points.AddXY("Income", totalIncome);
-            seriesBar.Points.AddXY("Expenses", totalExpenses);
-            BarChart.Series.Add(seriesBar);
-
-            // Pie Chart: All Transactions by Category (Combined)
-            var categoryGroups = allTransactionData.AsEnumerable()
-                .GroupBy(row => row.Field<string>("Category"))
-                .Select(g => new { Category = g.Key, Total = g.Sum(row => row.Field<decimal>("Amount")) });
-
-            var seriesPie = new Series("Transactions by Category")
-            {
-                ChartType = SeriesChartType.Pie
-            };
-
-            foreach (var category in categoryGroups)
-            {
-                seriesPie.Points.AddXY(category.Category, category.Total);
-            }
-
-            IncomeChart.Series.Add(seriesPie);
-        }
-
         private void ExportToCsv(DataTable table, string fileName)
         {
             using (StreamWriter writer = new StreamWriter(fileName))
@@ -157,6 +123,8 @@ namespace FinanceFusion.Forms
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     ExportToCsv(incomeData, sfd.FileName);
+                    MessageBox.Show("Report Exported Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
             }
         }
@@ -168,6 +136,8 @@ namespace FinanceFusion.Forms
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     ExportToExcel(incomeData, sfd.FileName);
+                    MessageBox.Show("Report Exported Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
             }
         }
@@ -179,6 +149,8 @@ namespace FinanceFusion.Forms
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     ExportToCsv(expenseData, sfd.FileName);
+                    MessageBox.Show("Report Exported Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
             }
         }
@@ -190,41 +162,112 @@ namespace FinanceFusion.Forms
                 if (sfd.ShowDialog() == DialogResult.OK)
                 {
                     ExportToExcel(expenseData, sfd.FileName);
+                    MessageBox.Show("Report Exported Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 }
             }
         }
+
+        private int AddTableToWorksheet(ExcelWorksheet worksheet, string title, DataTable data, int startRow)
+        {
+            worksheet.Cells[startRow, 1].Value = title;
+            worksheet.Cells[startRow, 1].Style.Font.Bold = true;
+            worksheet.Cells[startRow, 1].Style.Font.Size = 12;
+            startRow++;
+
+            // Add Headers
+            for (int col = 0; col < data.Columns.Count; col++)
+            {
+                worksheet.Cells[startRow, col + 1].Value = data.Columns[col].ColumnName;
+                worksheet.Cells[startRow, col + 1].Style.Font.Bold = true;
+            }
+            startRow++;
+
+            // Add Data
+            for (int row = 0; row < data.Rows.Count; row++)
+            {
+                for (int col = 0; col < data.Columns.Count; col++)
+                {
+                    worksheet.Cells[startRow + row, col + 1].Value = data.Rows[row][col].ToString();
+                }
+            }
+
+            return startRow + data.Rows.Count + 2; // Return new row index after table
+        }
+
+        private void SaveChartImage(Chart chart, string filename)
+        {
+            using (MemoryStream ms = new MemoryStream())
+            {
+                chart.SaveImage(ms, ChartImageFormat.Png);
+                File.WriteAllBytes(filename, ms.ToArray());
+            }
+        }
+
+
 
         private void btnExportCharts_Click(object sender, EventArgs e)
         {
-            using (SaveFileDialog sfd = new SaveFileDialog { Filter = "PNG Files (*.png)|*.png", FileName = "Charts.png" })
+            using (SaveFileDialog saveFileDialog = new SaveFileDialog())
             {
-                if (sfd.ShowDialog() == DialogResult.OK)
+                saveFileDialog.Filter = "Excel Files|*.xlsx";
+                saveFileDialog.Title = "Save Report";
+                saveFileDialog.FileName = "Financial_Report.xlsx";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    using (var bitmap = new Bitmap(BarChart.Width + IncomeChart.Width, Math.Max(BarChart.Height, IncomeChart.Height)))
+                    try
                     {
-                        using (var g = Graphics.FromImage(bitmap))
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (ExcelPackage package = new ExcelPackage())
                         {
-                            BarChart.DrawToBitmap(bitmap, new Rectangle(0, 0, BarChart.Width, BarChart.Height));
-                            IncomeChart.DrawToBitmap(bitmap, new Rectangle(BarChart.Width, 0, IncomeChart.Width, IncomeChart.Height));
+                            ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("Report");
+
+                            int rowIndex = 1;
+
+                            // ✅ Add Title
+                            worksheet.Cells[rowIndex, 1].Value = "Financial Report";
+                            worksheet.Cells[rowIndex, 1, rowIndex, 4].Merge = true;
+                            worksheet.Cells[rowIndex, 1].Style.Font.Bold = true;
+                            worksheet.Cells[rowIndex, 1].Style.Font.Size = 14;
+                            rowIndex += 2;
+
+                            // ✅ Add Selected Month/Year
+                            worksheet.Cells[rowIndex, 1].Value = "Report Period: " + cmbMonthSelect.SelectedItem.ToString();
+                            rowIndex += 2;
+
+                            // ✅ Add Income Table
+                            rowIndex = AddTableToWorksheet(worksheet, "Income Transactions", incomeData, rowIndex);
+                            rowIndex += 2;
+
+                            // ✅ Add Expense Table
+                            rowIndex = AddTableToWorksheet(worksheet, "Expense Transactions", expenseData, rowIndex);
+                            rowIndex += 2;
+
+                            // ✅ Export Charts
+                            SaveChartImage(BarChart, "BarChart.png");
+                            SaveChartImage(IncomeChart, "PieChart.png");
+
+                            var barChartImg = worksheet.Drawings.AddPicture("BarChart", new FileInfo("BarChart.png"));
+                            barChartImg.SetPosition(rowIndex, 0, 0, 0);
+                            rowIndex += 20;
+
+                            var pieChartImg = worksheet.Drawings.AddPicture("PieChart", new FileInfo("PieChart.png"));
+                            pieChartImg.SetPosition(rowIndex, 0, 0, 0);
+                            rowIndex += 20;
+
+                            // ✅ Save Excel File
+                            File.WriteAllBytes(saveFileDialog.FileName, package.GetAsByteArray());
+
+                            MessageBox.Show("Report Exported Successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
-                        bitmap.Save(sfd.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error exporting report: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            // Populate Month Dropdown
-            cmbMonth.Items.Add("Yearly"); // Option to show data for the full year
-            cmbMonth.Items.Add("All Months"); // Option to show all available data
-
-            for (int i = 1; i <= 12; i++)
-            {
-                cmbMonth.Items.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i));
-            }
-
-            cmbMonth.SelectedIndex = 1; // Default to "All Months"
         }
 
 
@@ -240,7 +283,7 @@ namespace FinanceFusion.Forms
             // Bar Chart: Income vs Expenses
             var seriesBar = new Series("Income vs Expenses")
             {
-                ChartType = SeriesChartType.Bar
+                ChartType = SeriesChartType.Column
             };
             seriesBar.Points.AddXY("Income", totalIncome);
             seriesBar.Points.AddXY("Expenses", totalExpenses);
@@ -263,52 +306,93 @@ namespace FinanceFusion.Forms
 
             IncomeChart.Series.Add(seriesPie);
         }
-
-
-
-        private void cmbMonth_SelectedIndexChanged(object sender, EventArgs e)
+        private void UpdateCharts()
         {
-            if (cmbMonth.SelectedIndex == -1) return; // If no selection, exit
+            BarChart.Series.Clear();
+            IncomeChart.Series.Clear();
+
+            // Calculate total income and expenses
+            var totalIncome = incomeData.AsEnumerable().Sum(row => row.Field<decimal>("Amount"));
+            var totalExpenses = expenseData.AsEnumerable().Sum(row => row.Field<decimal>("Amount"));
+
+            // Bar Chart: Income vs Expenses (Vertical)
+            var seriesBar = new Series("Income vs Expenses")
+            {
+                ChartType = SeriesChartType.Column // Bar chart is vertical by default
+            };
+            seriesBar.Points.AddXY("Income", totalIncome);
+            seriesBar.Points.AddXY("Expenses", totalExpenses);
+            BarChart.Series.Add(seriesBar);
+
+            // Pie Chart: All Transactions by Category (Combined)
+            var categoryGroups = allTransactionData.AsEnumerable()
+                .GroupBy(row => row.Field<string>("Category"))
+                .Select(g => new { Category = g.Key, Total = g.Sum(row => row.Field<decimal>("Amount")) });
+
+            var seriesPie = new Series("Transactions by Category")
+            {
+                ChartType = SeriesChartType.Pie
+            };
+
+            foreach (var category in categoryGroups)
+            {
+                seriesPie.Points.AddXY(category.Category, category.Total);
+            }
+
+            IncomeChart.Series.Add(seriesPie);
+        }
+
+
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            ToolStripComboBox cmbMonthSelect1 = (ToolStripComboBox)toolStrip1.Items["cmbMonthSelect"];
+            cmbMonthSelect.Items.Add("Yearly");
+            cmbMonthSelect.Items.Add("All Months");
+
+            for (int i = 1; i <= 12; i++)
+            {
+                cmbMonthSelect.Items.Add(CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i));
+            }
+
+            cmbMonthSelect.SelectedIndex = 1;
+        }
+
+        private void cmbMonthSelect_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ToolStripComboBox cmbMonthSelect = (ToolStripComboBox)toolStrip1.Items["cmbMonthSelect"];
+            if (cmbMonthSelect.SelectedIndex == -1) return;
 
             DataTable filteredData;
 
-            if (cmbMonth.SelectedIndex == 0) // "Yearly" option
+            if (cmbMonthSelect.SelectedIndex == 0) // "Yearly"
             {
-                filteredData = allTransactionData; // Use the entire dataset for the current year
+                filteredData = allTransactionData;
             }
-            else if (cmbMonth.SelectedIndex == 1) // "All Months" option
+            else if (cmbMonthSelect.SelectedIndex == 1) // "All Months"
             {
-                filteredData = allTransactionData; // Show all available data
+                filteredData = allTransactionData;
             }
-            else // Specific Month Selection
+            else // Specific Month
             {
-                int selectedMonth = cmbMonth.SelectedIndex - 1; // Adjust index (Yearly = 0, All Months = 1)
+                int selectedMonth = cmbMonthSelect.SelectedIndex - 1;
                 var filteredRows = allTransactionData.AsEnumerable()
                     .Where(row => row.Field<DateTime>("DateCreated").Month == selectedMonth);
 
                 filteredData = filteredRows.Any() ? filteredRows.CopyToDataTable() : allTransactionData.Clone();
             }
 
-            // Separate Income and Expense data
             var incomeRows = filteredData.AsEnumerable().Where(row => row.Field<string>("Type") == "Income");
             incomeData = incomeRows.Any() ? incomeRows.CopyToDataTable() : filteredData.Clone();
 
             var expenseRows = filteredData.AsEnumerable().Where(row => row.Field<string>("Type") == "Expense");
             expenseData = expenseRows.Any() ? expenseRows.CopyToDataTable() : filteredData.Clone();
 
-            // Update DataGrids
             dataGridView1.DataSource = incomeData;
             dataGridView2.DataSource = expenseData;
 
-            // Update Charts with the filtered data
             UpdateCharts(filteredData);
         }
-
-
-
-
-
     }
-
-
 }
+

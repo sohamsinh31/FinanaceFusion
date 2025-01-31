@@ -240,20 +240,20 @@
             // 
             // panel2
             // 
-            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel2.Location = new Point(244, 0);
             panel2.Name = "panel2";
             panel2.Size = new Size(1402, 802);
             panel2.TabIndex = 1;
             // 
-            // Dashboard
+            // DashboardForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1658, 801);
             Controls.Add(panel2);
             Controls.Add(panel1);
-            Name = "Dashboard";
+            Name = "DashboardForm";
             Text = "Dashboard - Personal Finance Tracker";
             Load += Form1_Load;
             panel1.ResumeLayout(false);

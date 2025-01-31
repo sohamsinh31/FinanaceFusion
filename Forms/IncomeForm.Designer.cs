@@ -60,19 +60,20 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.Size = new Size(1079, 261);
+            dataGridView1.Size = new Size(1336, 261);
             dataGridView1.TabIndex = 1;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // panel2
             // 
+            panel2.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel2.BackColor = Color.FromArgb(255, 255, 255);
             panel2.BorderStyle = BorderStyle.FixedSingle;
             panel2.Controls.Add(label1);
             panel2.Controls.Add(dataGridView1);
             panel2.Location = new Point(12, 12);
             panel2.Name = "panel2";
-            panel2.Size = new Size(1110, 328);
+            panel2.Size = new Size(1366, 328);
             panel2.TabIndex = 2;
             // 
             // label1
@@ -89,6 +90,7 @@
             // 
             // panel3
             // 
+            panel3.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panel3.BackColor = Color.FromArgb(255, 255, 255);
             panel3.BorderStyle = BorderStyle.FixedSingle;
             panel3.Controls.Add(label3);
@@ -107,7 +109,7 @@
             panel3.Controls.Add(label2);
             panel3.Location = new Point(12, 346);
             panel3.Name = "panel3";
-            panel3.Size = new Size(1110, 355);
+            panel3.Size = new Size(1366, 355);
             panel3.TabIndex = 3;
             // 
             // label3
@@ -247,15 +249,15 @@
             label2.TabIndex = 0;
             label2.Text = "Category:";
             // 
-            // IncomeView
+            // IncomeForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ControlLight;
-            ClientSize = new Size(1132, 713);
+            ClientSize = new Size(1390, 950);
             Controls.Add(panel3);
             Controls.Add(panel2);
-            Name = "IncomeView";
+            Name = "IncomeForm";
             Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             panel2.ResumeLayout(false);
