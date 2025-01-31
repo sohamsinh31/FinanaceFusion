@@ -9,6 +9,22 @@ CREATE TABLE t_users (
     c_is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
+CREATE TABLE t_types (
+    c_type_id SERIAL PRIMARY KEY,
+    c_type_name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE t_categories (
+    c_category_id SERIAL PRIMARY KEY,
+    c_category_name VARCHAR(255) NOT NULL,
+    c_user_id UUID REFERENCES t_users(c_user_id) ON DELETE CASCADE,  -- nullable for global categories
+    c_type_id INT NOT NULL REFERENCES t_types(c_type_id),
+    c_icon TEXT,
+    c_date_created TIMESTAMP NOT NULL DEFAULT NOW(),
+    c_date_updated TIMESTAMP NOT NULL DEFAULT NOW(),
+    c_is_active BOOLEAN NOT NULL DEFAULT TRUE
+);
+
 CREATE TABLE t_transactions (
     c_transaction_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     c_user_id UUID NOT NULL REFERENCES t_users(c_user_id),
@@ -17,22 +33,6 @@ CREATE TABLE t_transactions (
     c_description TEXT,
     c_date_created TIMESTAMP NOT NULL DEFAULT NOW(),
     c_date_updated TIMESTAMP NOT NULL DEFAULT NOW()
-);
-
-CREATE TABLE t_categories (
-    c_category_id SERIAL PRIMARY KEY,
-    c_category_name VARCHAR(255) NOT NULL,
-    c_user_id INT REFERENCES t_users(c_user_id) ON DELETE CASCADE,  -- nullable for global categories
-    c_type_id INT NOT NULL REFERENCES t_types(c_type_id),
-    c_icon TEXT,
-    c_date_created TIMESTAMP NOT NULL DEFAULT NOW(),
-    c_date_updated TIMESTAMP NOT NULL DEFAULT NOW(),
-    c_is_active BOOLEAN NOT NULL DEFAULT TRUE
-);
-
-CREATE TABLE t_transaction_types (
-    c_type_id SERIAL PRIMARY KEY,
-    c_type_name VARCHAR(255) NOT NULL
 );
 
 -- Triggers

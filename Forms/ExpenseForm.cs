@@ -94,7 +94,7 @@ namespace FinanceFusion.Forms
             label1.Name = "label1";
             label1.Size = new Size(180, 38);
             label1.TabIndex = 2;
-            label1.Text = "Expance List:";
+            label1.Text = "Expense List:";
             // 
             // panel3
             // 

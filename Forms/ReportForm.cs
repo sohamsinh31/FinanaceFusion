@@ -1,19 +1,15 @@
-﻿using System;
-using System.Data;
-using System.Drawing;
+﻿using System.Data;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 using Npgsql;
 using OfficeOpenXml; // Requires EPPlus NuGet package
+//
+using FinanceFusion.Helpers;
 
 namespace FinanceFusion.Forms
 {
     public partial class ReportForm : Form
     {
-        private string connectionString = "Server=cipg01;Port=5432;Database=intern088;User Id=postgres;Password=123456;";
         private DataTable incomeData = new DataTable();
         private DataTable expenseData = new DataTable();
         private DataTable allTransactionData = new DataTable();
@@ -21,50 +17,53 @@ namespace FinanceFusion.Forms
 
         public ReportForm()
         {
+            if (String.IsNullOrEmpty(SessionHelper.userId))
+            {
+                MessageBox.Show("User must be logged in to view this form");
+                return;
+            }
             InitializeComponent();
             ToolStripComboBox cmbMonthSelect = (ToolStripComboBox)toolStrip1.Items["cmbMonthSelect"];
             cmbMonthSelect.SelectedIndexChanged += cmbMonthSelect_SelectedIndexChanged;
-            LoadData();
         }
 
         private void LoadData()
         {
             try
             {
-                using (NpgsqlConnection connection = new NpgsqlConnection(connectionString))
+                string query = @"
+                SELECT 
+                    t.c_transaction_id AS TransactionId,
+                    t.c_amount AS Amount,
+                    c.c_category_name AS Category,
+                    ty.c_type_name AS Type,
+                    t.c_date_created AS DateCreated
+                FROM t_transactions t
+                INNER JOIN t_categories c ON t.c_category_id = c.c_category_id
+                INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id
+                WHERE t.c_user_id = @id
+                ORDER BY t.c_date_created DESC";
+
+                NpgsqlParameter[] parameters = {
+                    new NpgsqlParameter("@id", SessionHelper.userId)
+                };
+                allTransactionData.Clear();
+                allTransactionData = DatabaseHelper.ExecuteQuery(query);
+
+                if (allTransactionData.Rows.Count > 0)
                 {
-                    connection.Open();
-                    string query = @"
-                    SELECT 
-                        t.c_transaction_id AS TransactionId,
-                        t.c_amount AS Amount,
-                        c.c_category_name AS Category,
-                        ty.c_type_name AS Type,
-                        t.c_date_created AS DateCreated
-                    FROM t_transactions t
-                    INNER JOIN t_categories c ON t.c_category_id = c.c_category_id
-                    INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id
-                    ORDER BY t.c_date_created DESC";
+                    // Filter Income Data
+                    var incomeRows = allTransactionData.AsEnumerable().Where(row => row.Field<string>("Type") == "Income");
+                    incomeData = incomeRows.Any() ? incomeRows.CopyToDataTable() : allTransactionData.Clone();
 
-                    NpgsqlDataAdapter adapter = new NpgsqlDataAdapter(query, connection);
-                    allTransactionData.Clear();
-                    adapter.Fill(allTransactionData);
+                    // Filter Expense Data
+                    var expenseRows = allTransactionData.AsEnumerable().Where(row => row.Field<string>("Type") == "Expense");
+                    expenseData = expenseRows.Any() ? expenseRows.CopyToDataTable() : allTransactionData.Clone();
 
-                    if (allTransactionData.Rows.Count > 0)
-                    {
-                        // Filter Income Data
-                        var incomeRows = allTransactionData.AsEnumerable().Where(row => row.Field<string>("Type") == "Income");
-                        incomeData = incomeRows.Any() ? incomeRows.CopyToDataTable() : allTransactionData.Clone();
+                    dataGridView1.DataSource = incomeData;
+                    dataGridView2.DataSource = expenseData;
 
-                        // Filter Expense Data
-                        var expenseRows = allTransactionData.AsEnumerable().Where(row => row.Field<string>("Type") == "Expense");
-                        expenseData = expenseRows.Any() ? expenseRows.CopyToDataTable() : allTransactionData.Clone();
-
-                        dataGridView1.DataSource = incomeData;
-                        dataGridView2.DataSource = expenseData;
-
-                        UpdateCharts();
-                    }
+                    UpdateCharts();
                 }
             }
             catch (Exception ex)
@@ -72,6 +71,7 @@ namespace FinanceFusion.Forms
                 MessageBox.Show("Error loading data: " + ex.Message);
             }
         }
+
         private void ExportToCsv(DataTable table, string fileName)
         {
             using (StreamWriter writer = new StreamWriter(fileName))
@@ -203,7 +203,6 @@ namespace FinanceFusion.Forms
                 File.WriteAllBytes(filename, ms.ToArray());
             }
         }
-
 
 
         private void btnExportCharts_Click(object sender, EventArgs e)
@@ -341,7 +340,6 @@ namespace FinanceFusion.Forms
 
             IncomeChart.Series.Add(seriesPie);
         }
-
 
 
         private void Form1_Load(object sender, EventArgs e)

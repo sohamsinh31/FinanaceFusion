@@ -1,42 +1,43 @@
-﻿using System;
+﻿// using System.Windows.Media;
 using System.Data;
-using System.Windows.Forms;
-// using System.Windows.Media;
+//
+using FinanceFusion.Helpers;
+
 using Npgsql;
 
 namespace FinanceFusion.Forms
 {
     public partial class AddCategoryForm : Form
     {
-        private NpgsqlConnection con = new NpgsqlConnection("Server=cipg01;Port=5432;Database=intern088;User Id=postgres;Password=123456;");
+        private string _connectionString;
+        private NpgsqlConnection con;
 
         public AddCategoryForm()
         {
             InitializeComponent();
+            _connectionString = ConfigHelper.GetConnectionString();
+            con = new NpgsqlConnection(_connectionString);
             LoadData();
             LoadType();
         }
 
         private void LoadData()
         {
-            using (NpgsqlCommand cmd = new NpgsqlCommand("SELECT c_category_id, c_category_name, c_type_id, c_date_created, c_date_updated, c_is_active FROM t_categories", con))
+            try
             {
-                try
-                {
-                    con.Open();
-                    DataTable dt = new DataTable();
-                    dt.Load(cmd.ExecuteReader());
-                    CategoryData.DataSource = dt;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    con.Close();
-                }
+                string query = @"SELECT 
+                        c_category_id, c_category_name, t.c_type_id, t.c_type_name, c_date_created, c_date_updated, c_is_active 
+                    FROM 
+                        t_categories c
+                    INNER JOIN t_types t ON c.c_type_id = t.c_type_id";
+                DataTable dt = DatabaseHelper.ExecuteQuery(query);
+                CategoryData.DataSource = dt;
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+
         }
 
         private void btnUpdate_Click(object sender, EventArgs e)
@@ -59,27 +60,32 @@ namespace FinanceFusion.Forms
                 return;
             }
 
-            using (NpgsqlCommand cmd = new NpgsqlCommand("UPDATE t_categories SET c_category_name = @name, c_type_id = @type, c_date_updated = NOW() WHERE c_category_id = @id", con))
+            try
             {
-                try
-                {
-                    con.Open();
-                    cmd.Parameters.AddWithValue("@name", categoryName);
-                    cmd.Parameters.AddWithValue("@type", categoryTypeId);
-                    cmd.Parameters.AddWithValue("@id", categoryId);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Category updated successfully!");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    con.Close();
-                    LoadData();
-                }
+                string query = @"UPDATE 
+                    t_categories 
+                SET 
+                    c_category_name = @name, c_type_id = @type, c_date_updated = NOW()
+                WHERE 
+                    c_category_id = @id";
+                NpgsqlParameter[] parameters = {
+                    new NpgsqlParameter("@name", categoryName),
+                    new NpgsqlParameter("@type", categoryTypeId),
+                    new NpgsqlParameter("@id", categoryId),
+                };
+
+                int affectedRows = DatabaseHelper.ExecuteNonQuery(query, parameters);
+                MessageBox.Show("Category updated successfully!");
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                LoadData();
+            }
+
         }
 
 
@@ -98,24 +104,25 @@ namespace FinanceFusion.Forms
 
             if (dialogResult == DialogResult.Yes)
             {
-                using (NpgsqlCommand cmd = new NpgsqlCommand("DELETE FROM t_categories WHERE c_category_id = @id", con))
+                try
                 {
-                    try
-                    {
-                        con.Open();
-                        cmd.Parameters.AddWithValue("@id", categoryId);
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Category deleted successfully!");
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
-                    finally
-                    {
-                        con.Close();
-                        LoadData();
-                    }
+                    string query = @"DELETE FROM 
+                        t_categories 
+                    WHERE 
+                        c_category_id = @id";
+                    NpgsqlParameter[] parameters = {
+                        new NpgsqlParameter("@id", categoryId),
+                    };
+                    int affectedRows = DatabaseHelper.ExecuteNonQuery(query);
+                    MessageBox.Show("Category deleted successfully!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    LoadData();
                 }
             }
         }
@@ -157,11 +164,11 @@ namespace FinanceFusion.Forms
         private string GetTypeName(int typeId)
         {
             string typeName = "";
-
+            string query = "SELECT c_type_name FROM t_types WHERE c_type_id = @type_id";
             try
             {
                 con.Open();
-                using (NpgsqlCommand cmd = new NpgsqlCommand("SELECT c_type_name FROM t_types WHERE c_type_id = @type_id", con))
+                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@type_id", typeId);
                     using (NpgsqlDataReader reader = cmd.ExecuteReader())
