@@ -61,8 +61,8 @@
             panel1.BackColor = Color.Green;
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(button3);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(label2);
+            panel1.Controls.Add(btnSignIN);
+            panel1.Controls.Add(lblTitle);
             panel1.Location = new Point(-1, -5);
             panel1.Margin = new Padding(3, 4, 3, 4);
             panel1.Name = "panel1";
@@ -201,23 +201,24 @@
             // label1
             // 
             label1.AutoSize = true;
+            label1.Cursor = Cursors.Hand;
             label1.Location = new Point(645, 9);
             label1.Name = "label1";
             label1.Size = new Size(18, 20);
             label1.TabIndex = 15;
             label1.Text = "X";
-            // label1.Click += label1_Click_1;
+            label1.Click += label1_Click;
             // 
             // txtconpswd
             // 
-        txtConPassword.BackColor = SystemColors.Window;
-        txtConPassword.BorderStyle = BorderStyle.FixedSingle;
-        txtConPassword.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-        txtConPassword.Location = new Point(309, 395);
-        txtConPassword.Margin = new Padding(3, 4, 3, 4);
-        txtConPassword.Name = "txtconpswd";
-        txtConPassword.Size = new Size(315, 24);
-        txtConPassword.TabIndex = 22;
+            txtConPassword.BackColor = SystemColors.Window;
+            txtConPassword.BorderStyle = BorderStyle.FixedSingle;
+            txtConPassword.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtConPassword.Location = new Point(309, 395);
+            txtConPassword.Margin = new Padding(3, 4, 3, 4);
+            txtConPassword.Name = "txtconpswd";
+            txtConPassword.Size = new Size(315, 24);
+            txtConPassword.TabIndex = 22;
             // 
             // lblconpswd
             // 
@@ -358,7 +359,7 @@
             Margin = new Padding(3, 4, 3, 4);
             Name = "RegistrationPage";
             Text = "RegistrationPage";
-            Load += RegistrationPage_Load;
+            // Load += RegistrationPage_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

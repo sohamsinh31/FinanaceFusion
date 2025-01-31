@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using FinanceFusion.Helpers;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -13,16 +15,10 @@ namespace FinanceFusion.Forms
 {
     public partial class RegistrationForm
     {
-        private NpgsqlConnection con = DBFeeder.DBCon;
-
         public RegistrationForm()
         {
             InitializeComponent();
         }
-
-      
-
-
 
         private void Login_Click(object sender, EventArgs e)
         {
@@ -33,7 +29,7 @@ namespace FinanceFusion.Forms
 
        
 
-        private void label1_Click_1(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
             //this.Close();
             this.Hide();
@@ -45,50 +41,53 @@ namespace FinanceFusion.Forms
             {
                 // Proceed with registration
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(txtPassword.Text);
-
                 try
                 {
-                    con.Open();
-                    NpgsqlCommand cmdu = new NpgsqlCommand("SELECT c_email FROM t_users WHERE c_email = @c_email", con);
-                    cmdu.Parameters.AddWithValue("@c_email", txtEmail.Text);
-
-                    NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmdu);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    if (dt.Rows.Count > 0)
+                    if (DatabaseHelper.ValidateUserExists(txtEmail.Text))
                     {
                         lblerremailadd.Visible = true;
                         lblerremailadd.Text = "*Email already exists!";
                         MessageBox.Show("Email already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
-                    else
-                    {
-                        NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO t_users (c_first_name, c_last_name, c_email, c_password) VALUES (@c_first_name, @c_last_name, @c_email, @c_password)", con);
-                        cmd.Parameters.AddWithValue("@c_first_name", txtFirstName.Text);
-                        cmd.Parameters.AddWithValue("@c_last_name", txtLastName.Text);
-                        cmd.Parameters.AddWithValue("@c_email", txtEmail.Text);
-                        cmd.Parameters.AddWithValue("@c_password", hashedPassword);
+                    string query = @"
+                    INSERT INTO 
+                    t_users
+                        (c_first_name, c_last_name, c_email, c_password)
+                    VALUES 
+                        (@c_first_name, @c_last_name, @c_email, @c_password)";
 
-                        cmd.ExecuteNonQuery();
-                        MessageBox.Show("Registered successfully.");
-                        this.Hide();
-                        LoginForm loginform = new LoginForm(txtEmail.Text);
-                        loginform.Show();
+                    NpgsqlParameter[] parameters = {
+                        new NpgsqlParameter("@c_first_name", txtFirstName.Text),
+                        new NpgsqlParameter("@c_last_name", txtLastName.Text),
+                        new NpgsqlParameter("@c_email", txtEmail.Text),
+                        new NpgsqlParameter("@c_password", hashedPassword),
+                    };
+
+                    int affectedRows = DatabaseHelper.ExecuteNonQuery(query, parameters);
+
+                    if (affectedRows == 0) {
+                        MessageBox.Show("Failed to Register", "Error");
+                        return;
                     }
+                    MessageBox.Show("Registered successfully.");
+                    this.Hide();
+                    LoginForm loginform = new LoginForm(txtEmail.Text);
+                    loginform.Show();
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show($"Error: {ex.Message}");
                 }
-                finally
-                {
-                    cn.Close();
-                }
             }
             else
             {
-                MessageBox.Show("Please fix the validation errors and try again.", "Validation Failed", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(
+                    "Please fix the validation errors and try again.",
+                    "Validation Failed",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning
+                );
             }
         }
 
