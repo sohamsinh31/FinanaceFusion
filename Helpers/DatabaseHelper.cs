@@ -69,24 +69,28 @@ namespace FinanceFusion.Helpers
         /// <summary>
         /// Executes a SQL command to validate user login.
         /// </summary>
-        public static bool ValidateLogin(string email, string password)
+        public static bool ValidateLogin(string email, string password, out string userId)
         {
             using (var conn = GetConnection())
             {
                 try
                 {
-                    string query = "SELECT COUNT(*) FROM t_users WHERE c_email = @c_email AND c_password = @c_password AND c_is_active = TRUE";
+                    string query = @"
+                    SELECT c_user_id 
+                    FROM t_users 
+                    WHERE c_email = @c_email AND c_password = @c_password AND c_is_active = TRUE";
                     using (var cmd = new NpgsqlCommand(query, conn))
                     {
                         cmd.Parameters.AddWithValue("@c_email", email);
                         cmd.Parameters.AddWithValue("@c_password", password);
 
-                        int count = Convert.ToInt32(cmd.ExecuteScalar());
-                        return count > 0;  // Returns true if user exists, false otherwise
+                        userId = (String)cmd.ExecuteScalar();
+                        return !String.IsNullOrEmpty(userId);  // Returns true if user exists, false otherwise
                     }
                 }
                 catch (Exception ex)
                 {
+                    userId = "";
                     MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
@@ -98,7 +102,7 @@ namespace FinanceFusion.Helpers
         {
             using (var conn = GetConnection())
             {
-                string query = "SELECT COUNT(*) FROM t_users WHERE c_email = @c_email";
+                string query = "SELECT COUNT(*) FROM t_users WHERE c_email = @c_email AND c_is_active = TRUE";
                 using (var cmd = new NpgsqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@c_email", email);

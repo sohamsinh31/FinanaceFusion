@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BCrypt.Net;
 // 
 using FinanceFusion.Helpers;
 
@@ -15,10 +16,10 @@ namespace FinanceFusion.Forms
 {
     public partial class LoginForm : Form
     {
-        public LoginForm(string emailadd)
+        public LoginForm(string email)
         {
             InitializeComponent();
-            txtusername.Text = emailadd;
+            txtEmail.Text = email;
         }
 
         private void label3_Click(object sender, EventArgs e)
@@ -26,13 +27,13 @@ namespace FinanceFusion.Forms
 
         }
 
-        private void label1_Click(object sender, EventArgs e)
+        private void lblClose_Click(object sender, EventArgs e)
         {
             this.Close();
             //this.Hide();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Registration_Click(object sender, EventArgs e)
         {
             this.Hide();
             RegistrationForm rgpg = new RegistrationForm();
@@ -43,26 +44,34 @@ namespace FinanceFusion.Forms
         {
         }
 
-        private void btnlogin_Click(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
             if (!ValidateInputs()) return;
 
             try
             {
-                if (DatabaseHelper.ValidateLogin(txtusername.Text, txtpswd.Text))
+                string query = "SELECT c_password FROM t_users WHERE c_email = @c_email AND c_is_active = TRUE";
+                DataTable dt = DatabaseHelper.ExecuteQuery(query, new NpgsqlParameter("@c_email", txtEmail.Text));
+                string hashedPassword = dt.Rows[0]["c_password"].ToString();
+                if(!DatabaseHelper.ValidateUserExists(txtEmail.Text))
+                {
+                    MessageBox.Show("User does not exist", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (BCrypt.Net.BCrypt.Verify(txtPassword.Text, hashedPassword))
                 {
                     // Store credentials in app settings
                     // Properties.Settings.Default.UserEmail = txtusername.Text;
                     // Properties.Settings.Default.IsRemembered = true;
                     // Properties.Settings.Default.Save();
-
+                    // SessionHelper.userId = userId;
                     MessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     new DashboardForm().Show();
                     this.Hide();
                 }
                 else
                 {
-                    MessageBox.Show("Invalid email or password!", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Invalid Credentials", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -75,19 +84,19 @@ namespace FinanceFusion.Forms
         {
             string errorMessage = "";
 
-            if (!ValidationHelper.IsValidEmail(txtusername.Text))
+            if (!ValidationHelper.IsValidEmail(txtEmail.Text))
             {
-                errorMessage += "⚠️ Please enter a valid email address.\n";
-                lblerrusername.Visible = true;
+                errorMessage += "Please enter a valid email address.\n";
+                lblerremail.Visible = true;
             }
             else
             {
-                lblerrusername.Visible = false;
+                lblerremail.Visible = false;
             }
 
-            if (!ValidationHelper.IsValidPassword(txtpswd.Text))
+            if (String.IsNullOrEmpty(txtPassword.Text))
             {
-                errorMessage += "⚠️ Please enter a valid password.\n";
+                errorMessage += "Please enter a valid password.\n";
                 lblerrpasword.Visible = true;
             }
             else
@@ -106,14 +115,14 @@ namespace FinanceFusion.Forms
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
-            if (checkBox1.Checked)
+            if (chkShowPassword.Checked)
             {
-                txtpswd.PasswordChar = '\0';
+                txtPassword.PasswordChar = '\0';
             }
             else
             {
 
-                txtpswd.PasswordChar = '*';
+                txtPassword.PasswordChar = '*';
             }
         }
 
