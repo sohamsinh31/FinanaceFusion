@@ -3,6 +3,7 @@ using System.Data;
 
 // 
 using FinanceFusion.Helpers;
+using FinanceTracker;
 
 namespace FinanceFusion.Forms
 {
@@ -42,10 +43,12 @@ namespace FinanceFusion.Forms
 
             try
             {
-                string query = "SELECT c_password FROM t_users WHERE c_email = @c_email AND c_is_active = TRUE";
+                string query = "SELECT c_user_id, c_password FROM t_users WHERE c_email = @c_email AND c_is_active = TRUE";
                 DataTable dt = DatabaseHelper.ExecuteQuery(query, new NpgsqlParameter("@c_email", txtEmail.Text));
                 string hashedPassword = dt.Rows[0]["c_password"].ToString();
-                if(!DatabaseHelper.ValidateUserExists(txtEmail.Text))
+                string userId = dt.Rows[0]["c_user_id"].ToString();
+
+                if (!DatabaseHelper.ValidateUserExists(txtEmail.Text))
                 {
                     MessageBox.Show("User does not exist", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -56,9 +59,9 @@ namespace FinanceFusion.Forms
                     // Properties.Settings.Default.UserEmail = txtusername.Text;
                     // Properties.Settings.Default.IsRemembered = true;
                     // Properties.Settings.Default.Save();
-                    // SessionHelper.userId = userId;
+                    SessionHelper.userId = userId;
                     MessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    new DashboardForm().Show();
+                    new DashboardFormLeft().Show();
                     this.Hide();
                 }
                 else
@@ -120,7 +123,14 @@ namespace FinanceFusion.Forms
 
         private void label3_Click_1(object sender, EventArgs e)
         {
-            ForgotPasswordForm forgotPasswordForm = new ForgotPasswordForm();
+            ForgotePasswordPage forgotPasswordForm = new ForgotePasswordPage();
+            forgotPasswordForm.Show();
+            this.Hide();
+        }
+
+        private void label3_Click_2(object sender, EventArgs e)
+        {
+            ForgotePasswordPage forgotPasswordForm = new ForgotePasswordPage();
             forgotPasswordForm.Show();
             this.Hide();
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Data;
+using System.Windows.Forms; // Required for MessageBox
 using Npgsql; // PostgreSQL library
 
 namespace FinanceFusion.Helpers
@@ -10,12 +11,12 @@ namespace FinanceFusion.Helpers
 
         /// <summary>
         /// Creates and returns an open database connection.
+        /// Ensures connection is only opened if it's not already open.
         /// </summary>
-        public static NpgsqlConnection GetConnection()
+        private static NpgsqlConnection GetConnection()
         {
             var connection = new NpgsqlConnection(_connectionString);
-            connection.Open();
-            return connection;
+            return connection; // Connection will be opened inside `using` statements
         }
 
         /// <summary>
@@ -24,16 +25,19 @@ namespace FinanceFusion.Helpers
         public static DataTable ExecuteQuery(string query, params NpgsqlParameter[] parameters)
         {
             using (var conn = GetConnection())
-            using (var cmd = new NpgsqlCommand(query, conn))
             {
-                if (parameters != null)
-                    cmd.Parameters.AddRange(parameters);
-
-                using (var adapter = new NpgsqlDataAdapter(cmd))
+                conn.Open();
+                using (var cmd = new NpgsqlCommand(query, conn))
                 {
-                    var dataTable = new DataTable();
-                    adapter.Fill(dataTable);
-                    return dataTable;
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters);
+
+                    using (var adapter = new NpgsqlDataAdapter(cmd))
+                    {
+                        var dataTable = new DataTable();
+                        adapter.Fill(dataTable);
+                        return dataTable;
+                    }
                 }
             }
         }
@@ -44,11 +48,14 @@ namespace FinanceFusion.Helpers
         public static int ExecuteNonQuery(string query, params NpgsqlParameter[] parameters)
         {
             using (var conn = GetConnection())
-            using (var cmd = new NpgsqlCommand(query, conn))
             {
-                if (parameters != null)
-                    cmd.Parameters.AddRange(parameters);
-                return cmd.ExecuteNonQuery();
+                conn.Open();
+                using (var cmd = new NpgsqlCommand(query, conn))
+                {
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters);
+                    return cmd.ExecuteNonQuery();
+                }
             }
         }
 
@@ -58,11 +65,14 @@ namespace FinanceFusion.Helpers
         public static object ExecuteScalar(string query, params NpgsqlParameter[] parameters)
         {
             using (var conn = GetConnection())
-            using (var cmd = new NpgsqlCommand(query, conn))
             {
-                if (parameters != null)
-                    cmd.Parameters.AddRange(parameters);
-                return cmd.ExecuteScalar();
+                conn.Open();
+                using (var cmd = new NpgsqlCommand(query, conn))
+                {
+                    if (parameters != null)
+                        cmd.Parameters.AddRange(parameters);
+                    return cmd.ExecuteScalar();
+                }
             }
         }
 
@@ -71,10 +81,12 @@ namespace FinanceFusion.Helpers
         /// </summary>
         public static bool ValidateLogin(string email, string password, out string userId)
         {
-            using (var conn = GetConnection())
+            userId = string.Empty;
+            try
             {
-                try
+                using (var conn = GetConnection())
                 {
+                    conn.Open();
                     string query = @"
                     SELECT c_user_id 
                     FROM t_users 
@@ -84,24 +96,31 @@ namespace FinanceFusion.Helpers
                         cmd.Parameters.AddWithValue("@c_email", email);
                         cmd.Parameters.AddWithValue("@c_password", password);
 
-                        userId = (String)cmd.ExecuteScalar();
-                        return !String.IsNullOrEmpty(userId);  // Returns true if user exists, false otherwise
+                        object result = cmd.ExecuteScalar();
+                        if (result != null)
+                        {
+                            userId = result.ToString();
+                            return true;
+                        }
+                        return false;
                     }
                 }
-                catch (Exception ex)
-                {
-                    userId = "";
-                    MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Database error: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
         }
 
-
+        /// <summary>
+        /// Checks if a user exists based on email.
+        /// </summary>
         public static bool ValidateUserExists(string email)
         {
             using (var conn = GetConnection())
             {
+                conn.Open();
                 string query = "SELECT COUNT(*) FROM t_users WHERE c_email = @c_email AND c_is_active = TRUE";
                 using (var cmd = new NpgsqlCommand(query, conn))
                 {
@@ -111,6 +130,5 @@ namespace FinanceFusion.Helpers
                 }
             }
         }
-
     }
 }

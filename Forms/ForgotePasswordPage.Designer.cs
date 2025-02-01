@@ -1,6 +1,8 @@
-﻿namespace FinanceFusion.Forms
+﻿using FinanceFusion.Feeders;
+
+namespace FinanceTracker
 {
-    partial class ForgotPasswordForm
+    partial class ForgotePasswordPage
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ForgotPasswordForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ForgotePasswordPage));
             panel1 = new Panel();
             btnloginpage = new Button();
             label2 = new Label();
@@ -38,7 +40,7 @@
             label5 = new Label();
             txtemail = new TextBox();
             btnsendcode = new Button();
-            button1 = new Button();
+            btnVeryfy = new Button();
             txtcode = new TextBox();
             label3 = new Label();
             lblerremailadd = new Label();
@@ -49,7 +51,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.Green;
+            panel1.BackColor = Color.FromArgb(44, 48, 84);
             panel1.Controls.Add(btnloginpage);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(pictureBox1);
@@ -61,7 +63,7 @@
             // 
             // btnloginpage
             // 
-            btnloginpage.BackColor = Color.Green;
+            btnloginpage.BackColor = Color.FromArgb(20, 53, 197);
             btnloginpage.FlatAppearance.MouseDownBackColor = Color.Green;
             btnloginpage.FlatAppearance.MouseOverBackColor = Color.Green;
             btnloginpage.FlatStyle = FlatStyle.Flat;
@@ -83,13 +85,13 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(13, 264);
             label2.Name = "label2";
-            label2.Size = new Size(236, 22);
+            label2.Size = new Size(126, 22);
             label2.TabIndex = 1;
-            label2.Text = "Income and Expenses Traker";
+            label2.Text = "Finance Fusion";
             // 
             // pictureBox1
             // 
-            //pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(53, 89);
             pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
@@ -115,9 +117,9 @@
             label4.Font = new Font("Microsoft Sans Serif", 15F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(301, 84);
             label4.Name = "label4";
-            label4.Size = new Size(217, 29);
+            label4.Size = new Size(203, 29);
             label4.TabIndex = 19;
-            label4.Text = "Forgote Password";
+            label4.Text = "Forgot Password";
             // 
             // label5
             // 
@@ -139,16 +141,17 @@
             txtemail.Name = "txtemail";
             txtemail.Size = new Size(315, 24);
             txtemail.TabIndex = 21;
+            txtemail.TextChanged += txtemail_TextChanged;
             // 
             // btnsendcode
             // 
-            btnsendcode.BackColor = Color.Green;
+            btnsendcode.BackColor = Color.FromArgb(20, 53, 197);
             btnsendcode.Cursor = Cursors.Hand;
             btnsendcode.FlatAppearance.MouseDownBackColor = Color.Green;
             btnsendcode.FlatAppearance.MouseOverBackColor = Color.Green;
             btnsendcode.FlatStyle = FlatStyle.Flat;
             btnsendcode.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnsendcode.ForeColor = Color.White;
+            btnsendcode.ForeColor = Color.FromArgb(255, 255, 255);
             btnsendcode.Location = new Point(306, 233);
             btnsendcode.Margin = new Padding(3, 4, 3, 4);
             btnsendcode.Name = "btnsendcode";
@@ -158,34 +161,37 @@
             btnsendcode.UseVisualStyleBackColor = false;
             btnsendcode.Click += btnsendcode_Click;
             // 
-            // button1
+            // btnVeryfy
             // 
-            button1.BackColor = Color.Green;
-            button1.Cursor = Cursors.Hand;
-            button1.FlatAppearance.MouseDownBackColor = Color.Green;
-            button1.FlatAppearance.MouseOverBackColor = Color.Green;
-            button1.FlatStyle = FlatStyle.Flat;
-            button1.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.White;
-            button1.Location = new Point(310, 375);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(315, 33);
-            button1.TabIndex = 28;
-            button1.Text = "Verify";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            btnVeryfy.BackColor = Color.FromArgb(20, 53, 197);
+            btnVeryfy.Cursor = Cursors.Hand;
+            btnVeryfy.Enabled = false;
+            btnVeryfy.FlatAppearance.MouseDownBackColor = Color.Green;
+            btnVeryfy.FlatAppearance.MouseOverBackColor = Color.Green;
+            btnVeryfy.FlatStyle = FlatStyle.Flat;
+            btnVeryfy.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnVeryfy.ForeColor = Color.FromArgb(255, 255, 255);
+            btnVeryfy.Location = new Point(310, 375);
+            btnVeryfy.Margin = new Padding(3, 4, 3, 4);
+            btnVeryfy.Name = "btnVeryfy";
+            btnVeryfy.Size = new Size(315, 33);
+            btnVeryfy.TabIndex = 28;
+            btnVeryfy.Text = "Verify";
+            btnVeryfy.UseVisualStyleBackColor = false;
+            btnVeryfy.Click += button1_Click;
             // 
             // txtcode
             // 
             txtcode.BackColor = SystemColors.Window;
             txtcode.BorderStyle = BorderStyle.FixedSingle;
+            txtcode.Enabled = false;
             txtcode.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtcode.Location = new Point(310, 323);
             txtcode.Margin = new Padding(3, 4, 3, 4);
             txtcode.Name = "txtcode";
             txtcode.Size = new Size(315, 24);
             txtcode.TabIndex = 27;
+            txtcode.TextChanged += txtcode_TextChanged;
             // 
             // label3
             // 
@@ -223,10 +229,11 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(225, 225, 225);
             ClientSize = new Size(647, 562);
             Controls.Add(lblerrcode);
             Controls.Add(lblerremailadd);
-            Controls.Add(button1);
+            Controls.Add(btnVeryfy);
             Controls.Add(txtcode);
             Controls.Add(label3);
             Controls.Add(btnsendcode);
@@ -256,7 +263,7 @@
         private Label label5;
         private TextBox txtemail;
         private Button btnsendcode;
-        private Button button1;
+        private Button btnVeryfy;
         private TextBox txtcode;
         private Label label3;
         private Label lblerremailadd;

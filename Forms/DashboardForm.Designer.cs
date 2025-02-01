@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(DashboardForm));
             panelTotIncome = new Panel();
             pictureBox3 = new PictureBox();
             lblincm = new Label();
@@ -97,7 +96,6 @@
             // 
             // pictureBox3
             // 
-            pictureBox3.BackgroundImage = (Image)resources.GetObject("pictureBox3.BackgroundImage");
             pictureBox3.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox3.Location = new Point(23, 59);
             pictureBox3.Name = "pictureBox3";
@@ -142,7 +140,6 @@
             // 
             // pictureBox6
             // 
-            pictureBox6.BackgroundImage = (Image)resources.GetObject("pictureBox6.BackgroundImage");
             pictureBox6.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox6.Location = new Point(29, 65);
             pictureBox6.Name = "pictureBox6";
@@ -174,6 +171,7 @@
             // 
             // panelMain
             // 
+            panelMain.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             panelMain.Controls.Add(lblCopyRights);
             panelMain.Controls.Add(panel5);
             panelMain.Controls.Add(panel4);
@@ -187,7 +185,6 @@
             panelMain.Name = "panelMain";
             panelMain.Size = new Size(1147, 715);
             panelMain.TabIndex = 14;
-            panelMain.Paint += panelMain_Paint;
             // 
             // lblCopyRights
             // 
@@ -214,7 +211,6 @@
             // 
             // pictureBox4
             // 
-            pictureBox4.BackgroundImage = (Image)resources.GetObject("pictureBox4.BackgroundImage");
             pictureBox4.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox4.Location = new Point(23, 65);
             pictureBox4.Name = "pictureBox4";
@@ -259,7 +255,6 @@
             // 
             // pictureBox5
             // 
-            pictureBox5.BackgroundImage = (Image)resources.GetObject("pictureBox5.BackgroundImage");
             pictureBox5.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox5.Location = new Point(23, 65);
             pictureBox5.Name = "pictureBox5";
@@ -304,7 +299,6 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox1.Location = new Point(23, 59);
             pictureBox1.Name = "pictureBox1";
@@ -349,7 +343,6 @@
             // 
             // pictureBox2
             // 
-            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
             pictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox2.Location = new Point(23, 59);
             pictureBox2.Name = "pictureBox2";
@@ -394,7 +387,6 @@
             // 
             // pictureBox7
             // 
-            pictureBox7.BackgroundImage = (Image)resources.GetObject("pictureBox7.BackgroundImage");
             pictureBox7.BackgroundImageLayout = ImageLayout.Zoom;
             pictureBox7.Location = new Point(33, 45);
             pictureBox7.Name = "pictureBox7";
@@ -464,7 +456,7 @@
             menuStrip2.TabIndex = 15;
             menuStrip2.Text = "menuStrip2";
             // 
-            // Dashboard
+            // DashboardForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -473,7 +465,7 @@
             Controls.Add(menuStrip2);
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
-            Name = "Dashboard";
+            Name = "DashboardForm";
             Text = "Dashboard - Personal Finance Tracker";
             Load += Form1_Load;
             panelTotIncome.ResumeLayout(false);

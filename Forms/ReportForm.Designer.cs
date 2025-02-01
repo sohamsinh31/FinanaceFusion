@@ -242,6 +242,11 @@
             label4.Size = new Size(90, 25);
             label4.TabIndex = 15;
             label4.Text = "BarChart";
+
+            //code from theme feeder
+            
+
+
             // 
             // ReportForm
             // 

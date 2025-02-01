@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 // 
 using FinanceFusion.Models;
+using FinanceFusion.Helpers;
 
 namespace FinanceFusion.Controllers
 {
@@ -93,15 +94,19 @@ namespace FinanceFusion.Controllers
                 {
                     DBCon.Open();
                     string query = @"
-                INSERT INTO t_transactions (c_amount, c_description, c_date_created, c_category_id) 
-                VALUES (@amount, @description, @date, @categoryId)";
+                INSERT INTO t_transactions (c_amount, c_description, c_date_created, c_category_id, c_user_id) 
+                VALUES (@amount, @description, @date, @categoryId, @uid)";
 
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, DBCon))
                     {
+
+                        Guid guid = new Guid(SessionHelper.userId);
                         cmd.Parameters.AddWithValue("@amount", transaction.Amount);
                         cmd.Parameters.AddWithValue("@description", transaction.Description);
                         cmd.Parameters.AddWithValue("@date", transaction.CreatedDateTime);
                         cmd.Parameters.AddWithValue("@categoryId", transaction.CategoryId);
+                        cmd.Parameters.AddWithValue("@uid", guid);
+
 
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Transaction added successfully!");

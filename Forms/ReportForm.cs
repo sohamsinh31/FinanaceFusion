@@ -25,6 +25,7 @@ namespace FinanceFusion.Forms
             InitializeComponent();
             ToolStripComboBox cmbMonthSelect = (ToolStripComboBox)toolStrip1.Items["cmbMonthSelect"];
             cmbMonthSelect.SelectedIndexChanged += cmbMonthSelect_SelectedIndexChanged;
+            LoadData();
         }
 
         private void LoadData()
@@ -43,12 +44,12 @@ namespace FinanceFusion.Forms
                 INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id
                 WHERE t.c_user_id = @id
                 ORDER BY t.c_date_created DESC";
-
+                Guid guid = new Guid(SessionHelper.userId);
                 NpgsqlParameter[] parameters = {
-                    new NpgsqlParameter("@id", SessionHelper.userId)
+                    new NpgsqlParameter("@id", guid)
                 };
                 allTransactionData.Clear();
-                allTransactionData = DatabaseHelper.ExecuteQuery(query);
+                allTransactionData = DatabaseHelper.ExecuteQuery(query, parameters);
 
                 if (allTransactionData.Rows.Count > 0)
                 {

@@ -1,4 +1,6 @@
-﻿namespace FinanceFusion.Forms
+﻿using FinanceFusion.Feeders;
+
+namespace FinanceFusion.Forms
 {
     partial class RegistrationForm : Form
     {
@@ -28,7 +30,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(RegistrationForm));
             panel1 = new Panel();
             pictureBox1 = new PictureBox();
             button3 = new Button();
@@ -58,7 +59,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = Color.Green;
+            panel1.BackColor = Color.FromArgb(44, 48, 84);
             panel1.Controls.Add(pictureBox1);
             panel1.Controls.Add(button3);
             panel1.Controls.Add(btnSignIN);
@@ -71,7 +72,6 @@
             // 
             // pictureBox1
             // 
-            //pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(53, 89);
             pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
@@ -82,7 +82,7 @@
             // 
             // button3
             // 
-            button3.BackColor = Color.Green;
+            button3.BackColor = Color.FromArgb(20, 53, 197);
             button3.FlatAppearance.MouseDownBackColor = Color.Green;
             button3.FlatAppearance.MouseOverBackColor = Color.Green;
             button3.FlatStyle = FlatStyle.Flat;
@@ -96,19 +96,19 @@
             button3.Text = "REGISTER HERE";
             button3.UseVisualStyleBackColor = false;
             // 
-            // btnSignIn
+            // btnSignIN
             // 
-            btnSignIN.BackColor = Color.Green;
+            btnSignIN.BackColor = Color.FromArgb(20, 53, 197);
             btnSignIN.Cursor = Cursors.Hand;
             btnSignIN.FlatAppearance.BorderSize = 0;
             btnSignIN.FlatAppearance.MouseDownBackColor = Color.Green;
             btnSignIN.FlatAppearance.MouseOverBackColor = Color.Green;
             btnSignIN.FlatStyle = FlatStyle.Flat;
             btnSignIN.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnSignIN.ForeColor = Color.White;
+            btnSignIN.ForeColor = Color.FromArgb(255, 255, 255);
             btnSignIN.Location = new Point(13, 504);
             btnSignIN.Margin = new Padding(3, 4, 3, 4);
-            btnSignIN.Name = "button1";
+            btnSignIN.Name = "btnSignIN";
             btnSignIN.Size = new Size(236, 49);
             btnSignIN.TabIndex = 10;
             btnSignIN.Text = "SIGN IN";
@@ -121,23 +121,23 @@
             lblTitle.Font = new Font("Microsoft PhagsPa", 10F, FontStyle.Bold, GraphicsUnit.Point, 0);
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(13, 264);
-            lblTitle.Name = "label2";
-            lblTitle.Size = new Size(236, 22);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(126, 22);
             lblTitle.TabIndex = 1;
-            lblTitle.Text = "Income and Expenses Traker";
+            lblTitle.Text = "Finance Fusion";
             // 
-            // btnsignup
+            // btnSignUp
             // 
-            btnSignUp.BackColor = Color.Green;
+            btnSignUp.BackColor = Color.FromArgb(20, 53, 197);
             btnSignUp.Cursor = Cursors.Hand;
             btnSignUp.FlatAppearance.MouseDownBackColor = Color.Green;
             btnSignUp.FlatAppearance.MouseOverBackColor = Color.Green;
             btnSignUp.FlatStyle = FlatStyle.Flat;
             btnSignUp.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnSignUp.ForeColor = Color.White;
+            btnSignUp.ForeColor = Color.FromArgb(255, 255, 255);
             btnSignUp.Location = new Point(331, 488);
             btnSignUp.Margin = new Padding(3, 4, 3, 4);
-            btnSignUp.Name = "btnsignup";
+            btnSignUp.Name = "btnSignUp";
             btnSignUp.Size = new Size(277, 49);
             btnSignUp.TabIndex = 14;
             btnSignUp.Text = "SIGNUP";
@@ -151,7 +151,7 @@
             txtPassword.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtPassword.Location = new Point(306, 319);
             txtPassword.Margin = new Padding(3, 4, 3, 4);
-            txtPassword.Name = "txtpswd";
+            txtPassword.Name = "txtPassword";
             txtPassword.PasswordChar = '*';
             txtPassword.Size = new Size(315, 24);
             txtPassword.TabIndex = 20;
@@ -173,10 +173,9 @@
             txtFirstName.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtFirstName.Location = new Point(309, 167);
             txtFirstName.Margin = new Padding(3, 4, 3, 4);
-            txtFirstName.Name = "txtfname";
+            txtFirstName.Name = "txtFirstName";
             txtFirstName.Size = new Size(142, 24);
             txtFirstName.TabIndex = 18;
-            // txtFirstName.TextChanged += txtuser_TextChanged;
             // 
             // label5
             // 
@@ -209,14 +208,14 @@
             label1.Text = "X";
             label1.Click += label1_Click;
             // 
-            // txtconpswd
+            // txtConPassword
             // 
             txtConPassword.BackColor = SystemColors.Window;
             txtConPassword.BorderStyle = BorderStyle.FixedSingle;
             txtConPassword.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtConPassword.Location = new Point(309, 395);
             txtConPassword.Margin = new Padding(3, 4, 3, 4);
-            txtConPassword.Name = "txtconpswd";
+            txtConPassword.Name = "txtConPassword";
             txtConPassword.Size = new Size(315, 24);
             txtConPassword.TabIndex = 22;
             // 
@@ -230,14 +229,14 @@
             lblconpswd.TabIndex = 21;
             lblconpswd.Text = "Conform Password";
             // 
-            // txtemailadd
+            // txtEmail
             // 
             txtEmail.BackColor = SystemColors.Window;
             txtEmail.BorderStyle = BorderStyle.FixedSingle;
             txtEmail.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtEmail.Location = new Point(306, 243);
             txtEmail.Margin = new Padding(3, 4, 3, 4);
-            txtEmail.Name = "txtemailadd";
+            txtEmail.Name = "txtEmail";
             txtEmail.Size = new Size(315, 24);
             txtEmail.TabIndex = 24;
             // 
@@ -251,14 +250,14 @@
             label7.TabIndex = 23;
             label7.Text = "Email Addres";
             // 
-            // txtlname
+            // txtLastName
             // 
             txtLastName.BackColor = SystemColors.Window;
             txtLastName.BorderStyle = BorderStyle.FixedSingle;
             txtLastName.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtLastName.Location = new Point(479, 167);
             txtLastName.Margin = new Padding(3, 4, 3, 4);
-            txtLastName.Name = "txtlname";
+            txtLastName.Name = "txtLastName";
             txtLastName.Size = new Size(142, 24);
             txtLastName.TabIndex = 25;
             // 
@@ -283,14 +282,14 @@
             lblerrpasword.Text = "*!..Please enter the Password..!";
             lblerrpasword.Visible = false;
             // 
-            // checkBox1
+            // chkShowPassword
             // 
             chkShowPassword.AutoSize = true;
             chkShowPassword.Cursor = Cursors.Hand;
             chkShowPassword.Font = new Font("Microsoft PhagsPa", 9F);
             chkShowPassword.Location = new Point(491, 446);
             chkShowPassword.Margin = new Padding(3, 4, 3, 4);
-            chkShowPassword.Name = "checkBox1";
+            chkShowPassword.Name = "chkShowPassword";
             chkShowPassword.Size = new Size(133, 24);
             chkShowPassword.TabIndex = 27;
             chkShowPassword.Text = "Show Password";
@@ -330,7 +329,7 @@
             lblerrconpswd.Text = "!..Please enter the Conform password..!";
             lblerrconpswd.Visible = false;
             // 
-            // RegistrationPage
+            // RegistrationForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -357,9 +356,9 @@
             Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 4, 3, 4);
-            Name = "RegistrationPage";
+            Name = "RegistrationForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "RegistrationPage";
-            // Load += RegistrationPage_Load;
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();

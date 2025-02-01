@@ -1,4 +1,6 @@
-﻿namespace FinanceFusion.Forms
+﻿using FinanceFusion.Feeders;
+
+namespace FinanceFusion.Forms
 {
     partial class LoginForm
     {
@@ -28,7 +30,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             panel1 = new Panel();
             btnregisterpage = new Button();
             btnloginpage = new Button();
@@ -45,13 +46,14 @@
             label3 = new Label();
             lblerremail = new Label();
             lblerrpasword = new Label();
+            label1 = new Label();
             panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // panel1
             // 
-            panel1.BackColor = Color.Green;
+            panel1.BackColor = Color.FromArgb(44, 48, 84);
             panel1.Controls.Add(btnregisterpage);
             panel1.Controls.Add(btnloginpage);
             panel1.Controls.Add(label2);
@@ -64,14 +66,14 @@
             // 
             // btnregisterpage
             // 
-            btnregisterpage.BackColor = Color.Green;
+            btnregisterpage.BackColor = Color.FromArgb(20, 53, 197);
             btnregisterpage.Cursor = Cursors.Hand;
             btnregisterpage.FlatAppearance.BorderSize = 0;
             btnregisterpage.FlatAppearance.MouseDownBackColor = Color.Green;
             btnregisterpage.FlatAppearance.MouseOverBackColor = Color.Green;
             btnregisterpage.FlatStyle = FlatStyle.Flat;
             btnregisterpage.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnregisterpage.ForeColor = Color.White;
+            btnregisterpage.ForeColor = Color.FromArgb(255, 255, 255);
             btnregisterpage.Location = new Point(13, 448);
             btnregisterpage.Margin = new Padding(3, 4, 3, 4);
             btnregisterpage.Name = "btnregisterpage";
@@ -83,7 +85,7 @@
             // 
             // btnloginpage
             // 
-            btnloginpage.BackColor = Color.Green;
+            btnloginpage.BackColor = Color.FromArgb(20, 53, 197);
             btnloginpage.FlatAppearance.MouseDownBackColor = Color.Green;
             btnloginpage.FlatAppearance.MouseOverBackColor = Color.Green;
             btnloginpage.FlatStyle = FlatStyle.Flat;
@@ -105,13 +107,12 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(13, 264);
             label2.Name = "label2";
-            label2.Size = new Size(236, 22);
+            label2.Size = new Size(126, 22);
             label2.TabIndex = 1;
-            label2.Text = "Income and Expenses Traker";
+            label2.Text = "Finance Fusion";
             // 
             // pictureBox1
             // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
             pictureBox1.Location = new Point(53, 89);
             pictureBox1.Margin = new Padding(3, 4, 3, 4);
             pictureBox1.Name = "pictureBox1";
@@ -187,13 +188,13 @@
             // 
             // btnLogin
             // 
-            btnLogin.BackColor = Color.Green;
+            btnLogin.BackColor = Color.FromArgb(20, 53, 197);
             btnLogin.Cursor = Cursors.Hand;
             btnLogin.FlatAppearance.MouseDownBackColor = Color.Green;
             btnLogin.FlatAppearance.MouseOverBackColor = Color.Green;
             btnLogin.FlatStyle = FlatStyle.Flat;
             btnLogin.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnLogin.ForeColor = Color.White;
+            btnLogin.ForeColor = Color.FromArgb(255, 255, 255);
             btnLogin.Location = new Point(327, 404);
             btnLogin.Margin = new Padding(3, 4, 3, 4);
             btnLogin.Name = "btnLogin";
@@ -229,6 +230,7 @@
             label3.Size = new Size(119, 20);
             label3.TabIndex = 15;
             label3.Text = "Forgot Password";
+            label3.Click += label3_Click_2;
             // 
             // lblerremail
             // 
@@ -252,7 +254,14 @@
             lblerrpasword.Text = "*!..Please enter the Password..!";
             lblerrpasword.Visible = false;
             // 
-            // LoginPage
+            // label1
+            // 
+            label1.Location = new Point(0, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(100, 23);
+            label1.TabIndex = 0;
+            // 
+            // LoginForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -272,7 +281,8 @@
             Controls.Add(lblClose);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(3, 4, 3, 4);
-            Name = "LoginPage";
+            Name = "LoginForm";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "LoginPage";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -299,5 +309,6 @@
         private Label label3;
         private Label lblerremail;
         private Label lblerrpasword;
+        private Label label1;
     }
 }

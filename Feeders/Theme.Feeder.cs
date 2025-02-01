@@ -12,7 +12,7 @@ namespace FinanceFusion.Feeders
         public static Color BtnColor = Color.FromArgb(20, 53, 197);
         public static Color BtnTxtColor = Color.FromArgb(255, 255, 255);
         public static Color TxtColor = Color.FromArgb(255, 255, 255);
-        public static Color NavColor = Color.FromArgb(20, 53, 197);
+        public static Color NavColor = Color.FromArgb(44, 48, 84);
         public static Color BGColor = Color.FromArgb(225, 225, 225);
         public static Color PanelColor = Color.FromArgb(255, 255, 255);
         public static Size LeftPanelSize = new Size(250, 588);

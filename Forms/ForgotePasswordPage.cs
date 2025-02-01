@@ -1,4 +1,5 @@
-﻿using Npgsql;
+﻿using FinanceFusion.Forms;
+using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,18 +11,22 @@ using System.Net;
 using System.Net.Mail;
 using System.Numerics;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Linq;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
-namespace FinanceFusion.Forms
+namespace FinanceTracker
 {
-    public partial class ForgotPasswordForm : Form
+    public partial class ForgotePasswordPage : Form
     {
-        NpgsqlConnection DBCon = new NpgsqlConnection("Server=cipg01;port=5432;Database=intern_026;UserId=postgres;Password=123456;");
+        NpgsqlConnection cn = new NpgsqlConnection("Server=cipg01;port=5432;Database=intern_026;UserId=postgres;Password=123456;");
 
         public string randomcode;
         public static string to;
-        public ForgotPasswordForm()
+        bool error = true;
+        public ForgotePasswordPage()
         {
             InitializeComponent();
         }
@@ -37,8 +42,8 @@ namespace FinanceFusion.Forms
             {
                 try
                 {
-                    DBCon.Open();
-                    NpgsqlCommand cmdu = new NpgsqlCommand("SELECT c_email FROM t_users WHERE c_email = @c_email", DBCon);
+                    cn.Open();
+                    NpgsqlCommand cmdu = new NpgsqlCommand("SELECT c_email FROM t_users WHERE c_email = @c_email", cn);
                     cmdu.Parameters.AddWithValue("@c_email", txtemail.Text);
 
                     NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmdu);
@@ -69,6 +74,8 @@ namespace FinanceFusion.Forms
                         {
                             smtpClient.Send(mailMessage);
                             MessageBox.Show("Code Successsfully send");
+                            txtcode.Enabled = true;
+                            btnVeryfy.Enabled = true;
                         }
                         catch (Exception ex)
                         {
@@ -86,7 +93,7 @@ namespace FinanceFusion.Forms
                 }
                 finally
                 {
-                    DBCon.Close();
+                    cn.Close();
                 }
             }
             else
@@ -98,15 +105,15 @@ namespace FinanceFusion.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (txtcode.Text != "")
+            if (error == false)
             {
                 lblerrcode.Visible = false;
                 if (randomcode == txtcode.Text)
                 {
-                    ChangePasswordForm chpswd = new ChangePasswordForm(txtemail.Text);
-                    MessageBox.Show("user is verify");
-                    chpswd.Show();
-                    this.Hide();
+                    // ChangePassword chpswd = new ChangePassword(txtemail.Text);
+                    // MessageBox.Show("user is verify");
+                    // chpswd.Show();
+                    // this.Hide();
                 }
                 else
                 {
@@ -115,24 +122,95 @@ namespace FinanceFusion.Forms
             }
             else
             {
-                lblerrcode.Visible = true;
-                MessageBox.Show("!..Please enter the code..!", "LoginPage", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("!..Error..!", "LoginPage", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
 
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            LoginForm loginForm = new LoginForm("");
-            loginForm.Show();
+            LoginForm loginPage = new LoginForm("");
+            loginPage.Show();
             this.Hide();
         }
 
         private void btnloginpage_Click(object sender, EventArgs e)
         {
-            LoginForm loginForm = new LoginForm("");
-            loginForm.Show();
+            LoginForm loginPage = new LoginForm("");
+            loginPage.Show();
             this.Hide();
+        }
+
+        private void txtemail_TextChanged(object sender, EventArgs e)
+        {
+            string email = txtemail.Text;
+            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+
+            if (Regex.IsMatch(email, pattern) == false)
+            {
+                lblerremailadd.Text = "*!..Please enter the valid Email..!";
+                error = true;
+                lblerremailadd.Visible = true;
+            }
+            else
+            {
+                try
+                {
+                    cn.Open();
+                    NpgsqlCommand cmdu = new NpgsqlCommand("SELECT c_email FROM t_users WHERE c_email = @c_email", cn);
+                    cmdu.Parameters.AddWithValue("@c_email", txtemail.Text);
+
+                    NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmdu);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        error = false;
+                        lblerremailadd.Visible = false;
+                    }
+                    else
+                    {
+                        lblerremailadd.Text = "*Email Not found..! \n";
+                        error = true;
+                        lblerremailadd.Visible = true;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    cn.Close();
+                }
+            }
+        }
+
+        private void txtcode_TextChanged(object sender, EventArgs e)
+        {
+
+            string codefmt = txtcode.Text;
+            string pattern = @"^[0-9]+$";
+
+            if (txtcode.Text == "")
+            {
+                error = true;
+                lblerrcode.Visible = true;
+                lblerrcode.Text = "*plese enter the code..!";
+            }
+            else if (Regex.IsMatch(codefmt, pattern) == false && txtcode.Text != "")
+            {
+                lblerrcode.Text = "*Please enter the Number Only..!";
+                error = true;
+                lblerrcode.Visible = true;
+            }
+            else
+            {
+                error = false;
+                lblerrcode.Visible = false;
+            }
         }
     }
 }
