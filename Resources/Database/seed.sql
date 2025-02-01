@@ -1,5 +1,5 @@
 -- #region Transaction Types
-INSERT INTO t_transaction_types (c_type_name) VALUES 
+INSERT INTO t_types (c_type_name) VALUES 
 ('Income'),
 ('Expense'),
 ('Investment'),

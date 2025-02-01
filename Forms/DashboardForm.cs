@@ -17,6 +17,10 @@ namespace FinanceFusion.Forms
         }
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (String.IsNullOrEmpty(SessionHelper.userId)) {
+                MessageBox.Show("User must be logged in to view this form");
+                return;
+            }
             try
             {
                 con.Open();
@@ -75,20 +79,24 @@ namespace FinanceFusion.Forms
         private decimal GetTodayIncome()
         {
             decimal todayIncome = 0;
+            string query = @"
+            SELECT SUM(t.c_amount) AS TotalIncome FROM t_transactions t 
+            INNER JOIN t_categories c ON t.c_category_id = c.c_category_id 
+            INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id 
+            WHERE ty.c_type_name = 'Income' AND DATE(t.c_date_created) = CURRENT_DATE AND t.c_user_id = @id";
             try
             {
                 con.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand("SELECT SUM(t.c_amount) AS TotalIncome" +
-                    "FROM t_transactions tINNER JOIN t_categories c " +
-                    "ON t.c_category_id = c.c_category_idINNER JOIN t_types ty " +
-                    "ON c.c_type_id = ty.c_type_idWHERE ty.c_type_name = 'Income'" +
-                    "AND DATE(t.c_date_created) = CURRENT_DATE", con);
+                NpgsqlCommand cmd = new NpgsqlCommand(query, con);
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
+                NpgsqlParameter[] parameters = {
+                    new NpgsqlParameter("@id", SessionHelper.userId)
+                };
+                DataTable dt = DatabaseHelper.ExecuteQuery(query, parameters);
                 da.Fill(dt);
                 if (dt.Rows.Count > 0)
                 {
-                    todayIncome = (decimal)cmd.ExecuteScalar();
+                    todayIncome = (decimal)dt.Rows[0]["TotalIncome"];
                 }
             }
             catch (Exception ex)
@@ -107,13 +115,12 @@ namespace FinanceFusion.Forms
             decimal monthIncome = 0;
             try
             {
-                con.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand("SELECT SUM(t.c_amount) AS TotalIncome" +
-                    "FROM t_transactions t INNER JOIN t_categories c " +
-                    "ON t.c_category_id = c.c_category_id" +
-                    "INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id" +
-                    "WHERE ty.c_type_name = 'Income'" +
-                    "AND DATE_TRUNC('month', t.c_date_created) = DATE_TRUNC('month', CURRENT_DATE)", con);
+                string query = @"SELECT SUM(t.c_amount) AS TotalIncome 
+                FROM t_transactions t INNER JOIN t_categories c 
+                ON t.c_category_id = c.c_category_id 
+                INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id 
+                WHERE ty.c_type_name = 'Income' AND DATE_TRUNC('month', t.c_date_created) = DATE_TRUNC('month', CURRENT_DATE)";
+                NpgsqlCommand cmd = new NpgsqlCommand(query, con);
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -136,13 +143,13 @@ namespace FinanceFusion.Forms
         private decimal GetTotalIncome()
         {
             decimal totalIncome = 0;
-
+            string query = @"SELECT SUM(t.c_amount) AS TotalIncome 
+            FROM t_transactions t INNER JOIN t_categories c ON t.c_category_id = c.c_category_id 
+            INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id WHERE ty.c_type_name = 'Income'";
             try
             {
                 con.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand("SELECT SUM(t.c_amount) AS TotalIncome " +
-                    "FROM t_transactions t INNER JOIN t_categories c ON t.c_category_id = c.c_category_id " +
-                    "INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id WHERE ty.c_type_name = 'Income'", con);
+                NpgsqlCommand cmd = new NpgsqlCommand(query, con);
 
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
@@ -167,15 +174,15 @@ namespace FinanceFusion.Forms
         private decimal GetTodayExpenses()
         {
             decimal totalTodayExpenses = 0;
-
+            string query = @"SELECT SUM(t.c_amount) AS TotalExpenses 
+            FROM t_transactions t INNER JOIN t_categories c ON 
+            t.c_category_id = c.c_category_id 
+            INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id 
+            WHERE ty.c_type_name = 'Expense'AND DATE(t.c_date_created) = CURRENT_DATE";
             try
             {
                 con.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand("SELECT SUM(t.c_amount) AS TotalExpenses" +
-                    "FROM t_transactions t INNER JOIN t_categories c ON " +
-                    "t.c_category_id = c.c_category_id" +
-                    "INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id" +
-                    "WHERE ty.c_type_name = 'Expense'AND DATE(t.c_date_created) = CURRENT_DATE;", con);
+                NpgsqlCommand cmd = new NpgsqlCommand(query, con);
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -198,16 +205,16 @@ namespace FinanceFusion.Forms
         private decimal GetMonthExpenses()
         {
             decimal totalMonthExpense = 0;
-
+            string query = @"SELECT SUM(t.c_amount) AS TotalExpenses 
+            FROM t_transactions t
+            INNER JOIN t_categories c ON t.c_category_id = c.c_category_id 
+            INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id 
+            WHERE ty.c_type_name = 'Expense' 
+            AND DATE_TRUNC('month', t.c_date_created) = DATE_TRUNC('month', CURRENT_DATE);";
             try
             {
                 con.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand("SELECT SUM(t.c_amount) AS TotalExpenses" +
-                    "FROM t_transactions tINNER JOIN t_categories c ON " +
-                    "t.c_category_id = c.c_category_id " +
-                    "INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id" +
-                    "WHERE ty.c_type_name = 'Expense'" +
-                    "AND DATE_TRUNC('month', t.c_date_created) = DATE_TRUNC('month', CURRENT_DATE);", con);
+                NpgsqlCommand cmd = new NpgsqlCommand(query, con);
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -236,13 +243,15 @@ namespace FinanceFusion.Forms
         private decimal GetTotalExpenses()
         {
             decimal totalExpenses = 0;
-
+            string query = @"
+            SELECT SUM(t.c_amount) AS TotalExpenses 
+            FROM t_transactions t 
+            INNER JOIN t_categories c ON t.c_category_id = c.c_category_id 
+            INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id WHERE ty.c_type_name = 'Expense'";
             try
             {
                 con.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand("SELECT SUM(t.c_amount) AS TotalExpenses " +
-                           "FROM t_transactions t INNER JOIN t_categories c ON t.c_category_id = c.c_category_id " +
-                           "INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id WHERE ty.c_type_name = 'Expense'", con);
+                NpgsqlCommand cmd = new NpgsqlCommand(query, con);
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
@@ -265,14 +274,19 @@ namespace FinanceFusion.Forms
         private decimal GetTotalBalance()
         {
             decimal totalBalance = 0;
-
+            string query = @"
+            SELECT SUM(CASE 
+                WHEN ty.c_type_name = 'Income' THEN t.c_amount 
+                WHEN ty.c_type_name = 'Expense' THEN -t.c_amount 
+                ELSE 0 
+                END) AS Balance 
+            FROM t_transactions t 
+            INNER JOIN t_categories c ON t.c_category_id = c.c_category_id 
+            INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id;";
             try
             {
                 con.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand("SELECT SUM(CASE WHEN ty.c_type_name = 'Income' THEN t.c_amount " +
-                    "WHEN ty.c_type_name = 'Expense' THEN -t.c_amount ELSE 0 END) AS Balance FROM t_transactions t " +
-                    "INNER JOIN t_categories c ON t.c_category_id = c.c_category_id " +
-                    "INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id;", con);
+                NpgsqlCommand cmd = new NpgsqlCommand(query, con);
                 NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
