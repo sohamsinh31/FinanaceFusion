@@ -129,7 +129,7 @@ namespace FinanceTracker
             label5.Name = "label5";
             label5.Size = new Size(97, 20);
             label5.TabIndex = 20;
-            label5.Text = "Email Addres";
+            label5.Text = "Email Address";
             // 
             // txtemail
             // 

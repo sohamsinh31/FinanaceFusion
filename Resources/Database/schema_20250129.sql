@@ -54,3 +54,8 @@ CREATE TRIGGER trigger_categories_update_timestamp
 BEFORE UPDATE ON t_categories
 FOR EACH ROW
 EXECUTE FUNCTION update_timestamp();
+
+CREATE TRIGGER trigger_transactions_update_timestamp
+BEFORE UPDATE ON t_transactions
+FOR EACH ROW
+EXECUTE FUNCTION update_timestamp();

@@ -100,7 +100,7 @@ namespace FinanceFusion.Controllers
                     using (NpgsqlCommand cmd = new NpgsqlCommand(query, DBCon))
                     {
 
-                        Guid guid = new Guid(SessionHelper.userId);
+                        Guid guid = new Guid(SessionHelper.user.UserId);
                         cmd.Parameters.AddWithValue("@amount", transaction.Amount);
                         cmd.Parameters.AddWithValue("@description", transaction.Description);
                         cmd.Parameters.AddWithValue("@date", transaction.CreatedDateTime);

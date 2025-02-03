@@ -46,7 +46,7 @@ namespace FinanceFusion.Forms
                 {
                     Amount = decimal.Parse(InIncomeBox.Text),
                     Description = InDescBox.Text,
-                    // CreatedDateTime = InDTBox.Value,
+                    CreatedDateTime = InDTBox.Value,
                     CategoryId = Convert.ToInt32(InCateBox.SelectedValue)
                 };
 

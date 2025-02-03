@@ -5,6 +5,7 @@ using FinanceFusion.Helpers;
 
 using Npgsql;
 using FinanceFusion.Models;
+using FinanceFusion.Controllers;
 
 namespace FinanceFusion.Forms
 {
@@ -18,28 +19,10 @@ namespace FinanceFusion.Forms
             InitializeComponent();
             _connectionString = ConfigHelper.GetConnectionString();
             con = new NpgsqlConnection(_connectionString);
-            LoadData();
-            LoadType();
+            CategoryController.LoadData(ref CategoryData);
+            CategoryController.LoadType(ref cmb_type);
         }
 
-        private void LoadData()
-        {
-            try
-            {
-                string query = @"SELECT 
-                        c_category_id, c_category_name, t.c_type_id, t.c_type_name, c_date_created, c_date_updated, c_is_active 
-                    FROM 
-                        t_categories c
-                    INNER JOIN t_types t ON c.c_type_id = t.c_type_id";
-                DataTable dt = DatabaseHelper.ExecuteQuery(query);
-                CategoryData.DataSource = dt;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-
-        }
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -62,27 +45,8 @@ namespace FinanceFusion.Forms
                 return;
             }
 
-            using (NpgsqlCommand cmd = new NpgsqlCommand("UPDATE t_categories SET c_category_name = @name, c_type_id = @type, c_date_updated = NOW() WHERE c_category_id = @id", con))
-            {
-                try
-                {
-                    con.Open();
-                    cmd.Parameters.AddWithValue("@name", categoryModel.CategoryName);
-                    cmd.Parameters.AddWithValue("@type", categoryModel.TypeId);
-                    cmd.Parameters.AddWithValue("@id", categoryModel.Id);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Category updated successfully!");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    con.Close();
-                    LoadData();
-                }
-            }
+            CategoryController.UpdateData(categoryModel);
+            CategoryController.LoadData(ref CategoryData);
         }
 
 
@@ -101,26 +65,8 @@ namespace FinanceFusion.Forms
 
             if (dialogResult == DialogResult.Yes)
             {
-                try
-                {
-                    string query = @"DELETE FROM 
-                        t_categories 
-                    WHERE 
-                        c_category_id = @id";
-                    NpgsqlParameter[] parameters = {
-                        new NpgsqlParameter("@id", categoryId),
-                    };
-                    int affectedRows = DatabaseHelper.ExecuteNonQuery(query);
-                    MessageBox.Show("Category deleted successfully!");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    LoadData();
-                }
+                CategoryController.DeleteData(categoryId);
+                CategoryController.LoadData(ref CategoryData);
             }
         }
 
@@ -132,62 +78,8 @@ namespace FinanceFusion.Forms
             dateTimePicker1.Value = DateTime.Now;
         }
 
-        private void LoadType()
-        {
-            try
-            {
-                con.Open();
-                using (NpgsqlCommand cmd = new NpgsqlCommand("SELECT c_type_name FROM t_types", con))
-                {
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            cmb_type.Items.Add(reader.GetString(0));
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
 
-        private string GetTypeName(int typeId)
-        {
-            string typeName = "";
-            string query = "SELECT c_type_name FROM t_types WHERE c_type_id = @type_id";
-            try
-            {
-                con.Open();
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@type_id", typeId);
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            typeName = reader.GetString(0);
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                con.Close();
-            }
 
-            return typeName;
-        }
 
 
         private void CategoryData_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -203,7 +95,7 @@ namespace FinanceFusion.Forms
                 int typeId = Convert.ToInt32(row.Cells["c_type_id"].Value);
 
                 // Fetch c_type_name based on c_type_id
-                string typeName = GetTypeName(typeId);
+                string typeName = CategoryController.GetTypeName(typeId);
                 cmb_type.Text = typeName;  // Set combo box text
 
                 dateTimePicker1.Value = Convert.ToDateTime(row.Cells["c_date_created"].Value);
@@ -280,7 +172,8 @@ namespace FinanceFusion.Forms
                 finally
                 {
                     con.Close();
-                    LoadData();
+                    CategoryController.LoadData(ref CategoryData);
+
                 }
             }
         }

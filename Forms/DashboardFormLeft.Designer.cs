@@ -1,4 +1,6 @@
-﻿namespace FinanceFusion.Forms
+﻿using FinanceFusion.Helpers;
+
+namespace FinanceFusion.Forms
 {
     partial class DashboardFormLeft
     {
@@ -113,7 +115,13 @@
             lblLogout.Size = new Size(83, 28);
             lblLogout.TabIndex = 10;
             lblLogout.Text = "Log Out";
-            lblLogout.Click += lblLogout_Click;
+            lblLogout.Click += (s, e) =>
+            {
+                SessionHelper.user = null;
+                LoginForm l = new LoginForm("");
+                l.Show();
+                this.Hide();
+            };
             // 
             // pictureBoxLogout
             // 

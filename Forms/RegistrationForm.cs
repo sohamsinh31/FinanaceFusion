@@ -28,7 +28,7 @@ namespace FinanceFusion.Forms
             loginForm.Show();
         }
 
-       
+
 
         private void label1_Click(object sender, EventArgs e)
         {
@@ -42,7 +42,7 @@ namespace FinanceFusion.Forms
             {
                 // Proceed with registration
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(txtPassword.Text);
-                SignupController.Signup(ref lblerremailadd,ref txtPassword, ref txtEmail, ref txtLastName, ref txtFirstName);
+                SignupController.Signup(ref lblerremailadd, ref txtPassword, ref txtEmail, ref txtLastName, ref txtFirstName);
                 this.Hide();
             }
             else

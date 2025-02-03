@@ -326,7 +326,7 @@ namespace FinanceFusion.Forms
                 {
                     Amount = decimal.Parse(ExIncomeBox.Text),
                     Description = ExDescBox.Text,
-                    // CreatedDateTime = DateTime.Parse(ExDTBox.Value),
+                    CreatedDateTime = ExDTBox.Value,
                     CategoryId = Convert.ToInt32(ExCateBox.SelectedValue)
                 };
 
@@ -347,7 +347,7 @@ namespace FinanceFusion.Forms
                     Id = transactionId,
                     Amount = decimal.Parse(ExIncomeBox.Text),
                     Description = ExDescBox.Text,
-                    // UpdatedDateTime = DateTime.Parse(ExDTBox.Value),
+                    UpdatedDateTime = ExDTBox.Value,
                     CategoryId = Convert.ToInt32(ExCateBox.SelectedValue)
                 };
 

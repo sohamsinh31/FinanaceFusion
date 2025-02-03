@@ -41,38 +41,6 @@ namespace FinanceFusion.Controllers
             }
         }
 
-        public static void LoadType(ref ComboBox cmb_type)
-        {
-            try
-            {
-                con.Open();
-                const string query = @$"
-                SELECT 
-                    c_type_name 
-                FROM 
-                    t_types
-                ";
-                using (NpgsqlCommand cmd = new NpgsqlCommand(query, con))
-                {
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            cmb_type.Items.Add(reader.GetString(0));
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
-
         public static void UpdateData(CategoryModel categoryModel)
         {
             const string query = @"
@@ -166,6 +134,31 @@ namespace FinanceFusion.Controllers
             }
 
             return typeName;
+        }
+        public static void LoadType(ref ComboBox cmb_type)
+        {
+            try
+            {
+                con.Open();
+                using (NpgsqlCommand cmd = new NpgsqlCommand("SELECT c_type_name FROM t_types", con))
+                {
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            cmb_type.Items.Add(reader.GetString(0));
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using FinanceFusion.Forms;
+﻿using FinanceFusion.Controllers;
+using FinanceFusion.Feeders;
+using FinanceFusion.Forms;
 using Npgsql;
 using System;
 using System.Collections.Generic;
@@ -21,7 +23,7 @@ namespace FinanceTracker
 {
     public partial class ForgotePasswordPage : Form
     {
-        NpgsqlConnection cn = new NpgsqlConnection("Server=cipg01;port=5432;Database=intern_026;UserId=postgres;Password=123456;");
+        NpgsqlConnection cn = DBFeeder.DBCon;
 
         public string randomcode;
         public static string to;
@@ -40,61 +42,7 @@ namespace FinanceTracker
         {
             if (txtemail.Text != "")
             {
-                try
-                {
-                    cn.Open();
-                    NpgsqlCommand cmdu = new NpgsqlCommand("SELECT c_email FROM t_users WHERE c_email = @c_email", cn);
-                    cmdu.Parameters.AddWithValue("@c_email", txtemail.Text);
-
-                    NpgsqlDataAdapter da = new NpgsqlDataAdapter(cmdu);
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-
-                    if (dt.Rows.Count > 0)
-                    {
-                        lblerremailadd.Visible = false;
-                        string from, pass, messegebody;
-                        Random rand = new Random();
-                        randomcode = (rand.Next(999999).ToString());
-                        MailMessage mailMessage = new MailMessage();
-                        to = (txtemail.Text).ToString();
-                        from = "yashpatel12092001@gmail.com";
-                        pass = "bzxl ecxn tfiv rnbe ";
-                        messegebody = $"Your reset code is {randomcode}";
-                        mailMessage.To.Add(to);
-                        mailMessage.From = new MailAddress(from);
-                        mailMessage.Body = messegebody;
-                        mailMessage.Subject = "Password Resetcode";
-                        SmtpClient smtpClient = new SmtpClient("smtp.gmail.com");
-                        smtpClient.EnableSsl = true;
-                        smtpClient.Port = 587;
-                        smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-                        smtpClient.Credentials = new NetworkCredential(from, pass);
-                        try
-                        {
-                            smtpClient.Send(mailMessage);
-                            MessageBox.Show("Code Successsfully send");
-                            txtcode.Enabled = true;
-                            btnVeryfy.Enabled = true;
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(ex.Message);
-                        }
-                    }
-                    else
-                    {
-                        MessageBox.Show("Email Not found..!", "LoginPage", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    cn.Close();
-                }
+                LoginController.SendLink(ref randomcode, ref lblerremailadd, ref btnVeryfy, ref txtcode, txtemail.Text);
             }
             else
             {
@@ -110,10 +58,9 @@ namespace FinanceTracker
                 lblerrcode.Visible = false;
                 if (randomcode == txtcode.Text)
                 {
-                    // ChangePassword chpswd = new ChangePassword(txtemail.Text);
-                    // MessageBox.Show("user is verify");
-                    // chpswd.Show();
-                    // this.Hide();
+                    DashboardFormLeft dashBoard = new DashboardFormLeft();
+                    dashBoard.Show();
+                    this.Hide();
                 }
                 else
                 {

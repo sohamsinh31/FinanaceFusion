@@ -17,7 +17,7 @@ namespace FinanceFusion.Forms
 
         public ReportForm()
         {
-            if (String.IsNullOrEmpty(SessionHelper.userId))
+            if (String.IsNullOrEmpty(SessionHelper.user.UserId))
             {
                 MessageBox.Show("User must be logged in to view this form");
                 return;
@@ -44,7 +44,7 @@ namespace FinanceFusion.Forms
                 INNER JOIN t_types ty ON c.c_type_id = ty.c_type_id
                 WHERE t.c_user_id = @id
                 ORDER BY t.c_date_created DESC";
-                Guid guid = new Guid(SessionHelper.userId);
+                Guid guid = new Guid(SessionHelper.user.UserId);
                 NpgsqlParameter[] parameters = {
                     new NpgsqlParameter("@id", guid)
                 };

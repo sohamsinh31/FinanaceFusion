@@ -1,9 +1,6 @@
-﻿using Npgsql;
-using System.Data;
-
-// 
-using FinanceFusion.Helpers;
+﻿using FinanceFusion.Helpers;
 using FinanceTracker;
+using FinanceFusion.Controllers;
 
 namespace FinanceFusion.Forms
 {
@@ -41,37 +38,9 @@ namespace FinanceFusion.Forms
         {
             if (!ValidateInputs()) return;
 
-            try
+            if (LoginController.Login(txtEmail.Text, txtPassword.Text) == 1)
             {
-                string query = "SELECT c_user_id, c_password FROM t_users WHERE c_email = @c_email AND c_is_active = TRUE";
-                DataTable dt = DatabaseHelper.ExecuteQuery(query, new NpgsqlParameter("@c_email", txtEmail.Text));
-                string hashedPassword = dt.Rows[0]["c_password"].ToString();
-                string userId = dt.Rows[0]["c_user_id"].ToString();
-
-                if (!DatabaseHelper.ValidateUserExists(txtEmail.Text))
-                {
-                    MessageBox.Show("User does not exist", "Failure", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-                if (BCrypt.Net.BCrypt.Verify(txtPassword.Text, hashedPassword))
-                {
-                    // Store credentials in app settings
-                    // Properties.Settings.Default.UserEmail = txtusername.Text;
-                    // Properties.Settings.Default.IsRemembered = true;
-                    // Properties.Settings.Default.Save();
-                    SessionHelper.userId = userId;
-                    MessageBox.Show("Login successful!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    new DashboardFormLeft().Show();
-                    this.Hide();
-                }
-                else
-                {
-                    MessageBox.Show("Invalid Credentials", "Login Failed", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.Hide();
             }
         }
 
