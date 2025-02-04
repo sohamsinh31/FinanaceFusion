@@ -12,8 +12,18 @@ namespace FinanceFusion.Forms
 
         public DashboardForm()
         {
-            InitializeComponent();
-            _connectionString = ConfigHelper.GetConnectionString();
+            if (SessionHelper.user == null)
+            {
+                MessageBox.Show("Login to view page");
+                LoginForm lf = new LoginForm("");
+                lf.Show();
+                return;
+            }
+            else
+            {
+                InitializeComponent();
+                _connectionString = ConfigHelper.GetConnectionString();
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)

@@ -186,5 +186,39 @@ namespace FinanceFusion.Controllers
                 }
             }
         }
+
+        public static int GetTypeId(string typeName)
+        {
+            try
+            {
+                con.Open();
+                using (NpgsqlCommand cmd = new NpgsqlCommand("SELECT c_type_id FROM t_types WHERE c_type_name = @type_name", con))
+                {
+                    cmd.Parameters.AddWithValue("@type_name", typeName);
+                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return reader.GetInt32(0);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Type not found.");
+                            return -1;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return -1;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
     }
 }

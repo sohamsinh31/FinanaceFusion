@@ -16,11 +16,21 @@ namespace FinanceFusion.Forms
 
         public AddCategoryForm()
         {
-            InitializeComponent();
-            _connectionString = ConfigHelper.GetConnectionString();
-            con = new NpgsqlConnection(_connectionString);
-            CategoryController.LoadData(ref CategoryData);
-            CategoryController.LoadType(ref cmb_type);
+            if (SessionHelper.user == null)
+            {
+                MessageBox.Show("Login to view page");
+                LoginForm lf = new LoginForm("");
+                lf.Show();
+                return;
+            }
+            else
+            {
+                InitializeComponent();
+                _connectionString = ConfigHelper.GetConnectionString();
+                con = new NpgsqlConnection(_connectionString);
+                CategoryController.LoadData(ref CategoryData);
+                CategoryController.LoadType(ref cmb_type);
+            }
         }
 
 
@@ -37,7 +47,7 @@ namespace FinanceFusion.Forms
             categoryModel.Id = Convert.ToInt32(row.Cells["c_category_id"].Value);
             categoryModel.CategoryName = txtBox_Name.Text;
             string typeName = cmb_type.Text;
-            categoryModel.TypeId = GetTypeId(typeName);
+            categoryModel.TypeId = CategoryController.GetTypeId(typeName);
 
             if (categoryModel.TypeId == -1)
             {
@@ -106,45 +116,11 @@ namespace FinanceFusion.Forms
             }
         }
 
-
-        private int GetTypeId(string typeName)
-        {
-            try
-            {
-                con.Open();
-                using (NpgsqlCommand cmd = new NpgsqlCommand("SELECT c_type_id FROM t_types WHERE c_type_name = @type_name", con))
-                {
-                    cmd.Parameters.AddWithValue("@type_name", typeName);
-                    using (NpgsqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            return reader.GetInt32(0);
-                        }
-                        else
-                        {
-                            MessageBox.Show("Type not found.");
-                            return -1;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return -1;
-            }
-            finally
-            {
-                con.Close();
-            }
-        }
-
         private void btnAdd_Click(object sender, EventArgs e)
         {
             string categoryName = txtBox_Name.Text;
             string typeName = cmb_type.Text;
-            int categoryTypeId = GetTypeId(typeName);
+            int categoryTypeId = CategoryController.GetTypeId(typeName);
 
             if (categoryTypeId == -1)
             {

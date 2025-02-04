@@ -17,15 +17,20 @@ namespace FinanceFusion.Forms
 
         public ReportForm()
         {
-            if (String.IsNullOrEmpty(SessionHelper.user.UserId))
+            if (SessionHelper.user == null)
             {
-                MessageBox.Show("User must be logged in to view this form");
+                MessageBox.Show("Login to view page");
+                LoginForm lf = new LoginForm("");
+                lf.Show();
                 return;
             }
-            InitializeComponent();
-            ToolStripComboBox cmbMonthSelect = (ToolStripComboBox)toolStrip1.Items["cmbMonthSelect"];
-            cmbMonthSelect.SelectedIndexChanged += cmbMonthSelect_SelectedIndexChanged;
-            LoadData();
+            else
+            {
+                InitializeComponent();
+                ToolStripComboBox cmbMonthSelect = (ToolStripComboBox)toolStrip1.Items["cmbMonthSelect"];
+                cmbMonthSelect.SelectedIndexChanged += cmbMonthSelect_SelectedIndexChanged;
+                LoadData();
+            }
         }
 
         private void LoadData()

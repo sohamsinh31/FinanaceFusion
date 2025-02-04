@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using FinanceFusion.Controllers;
+using FinanceFusion.Helpers;
 using FinanceFusion.Models;
 
 namespace FinanceFusion.Forms
@@ -7,10 +9,21 @@ namespace FinanceFusion.Forms
     {
         public IncomeForm()
         {
-            InitializeComponent();
-            FundController.LoadTables(ref dataGridView1, 1);
-            FundController.LoadCategories(ref InCateBox, 1);
-            InCateBox.SelectedIndex = -1;
+            // int toHide = 0;
+            if (SessionHelper.user == null)
+            {
+                MessageBox.Show("Login to view page");
+                LoginForm lf = new LoginForm("");
+                lf.Show();
+                return;
+            }
+            else
+            {
+                InitializeComponent();
+                FundController.LoadTables(ref dataGridView1, 1);
+                FundController.LoadCategories(ref InCateBox, 1);
+                InCateBox.SelectedIndex = -1;
+            }
         }
 
         private void InCateBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -46,7 +59,7 @@ namespace FinanceFusion.Forms
                 {
                     Amount = decimal.Parse(InIncomeBox.Text),
                     Description = InDescBox.Text,
-                    CreatedDateTime = InDTBox.Value,
+                    CreatedDateTime = DateTime.Parse(InDTBox.Value.ToString()),
                     CategoryId = Convert.ToInt32(InCateBox.SelectedValue)
                 };
 
@@ -60,7 +73,7 @@ namespace FinanceFusion.Forms
         {
             if (ValidateInputs())
             {
-                int transactionId = Convert.ToInt32(InIdBox.Text.ToString());
+                Guid transactionId = Guid.Parse(InIdBox.Text.ToString());
 
                 TransactionModel updatedTransaction = new TransactionModel
                 {
@@ -85,7 +98,7 @@ namespace FinanceFusion.Forms
         {
             if (InIdBox.Text != "")
             {
-                int transactionId = Convert.ToInt32(InIdBox.Text.ToString());
+                Guid transactionId = Guid.Parse(InIdBox.Text.ToString());
 
                 DialogResult result = MessageBox.Show("Are you sure you want to delete this transaction?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 

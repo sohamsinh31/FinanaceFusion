@@ -1,4 +1,6 @@
-﻿namespace FinanceFusion.Forms
+﻿using FinanceFusion.Feeders;
+
+namespace FinanceFusion.Forms
 {
     partial class IncomeForm
     {
@@ -167,7 +169,7 @@
             // 
             // button4
             // 
-            button4.BackColor = Color.FromArgb(20, 53, 197);
+            button4.BackColor = Theme.BtnColor;
             button4.ForeColor = Color.FromArgb(255, 255, 255);
             button4.Location = new Point(524, 218);
             button4.Name = "button4";
@@ -179,8 +181,8 @@
             // 
             // button3
             // 
-            button3.BackColor = Color.FromArgb(20, 53, 197);
-            button3.ForeColor = Color.FromArgb(255, 255, 255);
+            button3.BackColor = Theme.BtnColor;
+            button3.ForeColor = Theme.BtnTxtColor;
             button3.Location = new Point(405, 218);
             button3.Name = "button3";
             button3.Size = new Size(94, 29);
@@ -191,8 +193,8 @@
             // 
             // button2
             // 
-            button2.BackColor = Color.FromArgb(20, 53, 197);
-            button2.ForeColor = Color.FromArgb(255, 255, 255);
+            button2.BackColor = Theme.BtnColor;
+            button2.ForeColor = Theme.BtnTxtColor;
             button2.Location = new Point(280, 218);
             button2.Name = "button2";
             button2.Size = new Size(94, 29);
@@ -203,8 +205,8 @@
             // 
             // button1
             // 
-            button1.BackColor = Color.FromArgb(20, 53, 197);
-            button1.ForeColor = Color.FromArgb(255, 255, 255);
+            button1.BackColor = Theme.BtnColor;
+            button1.ForeColor = Theme.BtnTxtColor;
             button1.Location = new Point(158, 218);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);

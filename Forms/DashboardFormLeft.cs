@@ -1,10 +1,30 @@
+using FinanceFusion.Helpers;
+
 namespace FinanceFusion.Forms
 {
     public partial class DashboardFormLeft : Form
     {
         public DashboardFormLeft()
         {
-            InitializeComponent();
+            if (SessionHelper.user == null)
+            {
+                MessageBox.Show("Login to view page");
+                LoginForm lf = new LoginForm("");
+                lf.Show();
+                return;
+            }
+            else
+            {
+                InitializeComponent();
+                DashboardForm dashboardRight = new DashboardForm();
+                dashboardRight.TopLevel = false;
+                dashboardRight.FormBorderStyle = FormBorderStyle.None;
+                dashboardRight.Dock = DockStyle.Fill;
+
+                panel2.Controls.Clear();
+                panel2.Controls.Add(dashboardRight);
+                dashboardRight.Show();
+            }
         }
         private void Form1_Load(object sender, EventArgs e)
         {

@@ -153,7 +153,7 @@ namespace FinanceFusion.Controllers
             }
         }
 
-        public static void DeleteTransaction(int transactionId)
+        public static void DeleteTransaction(Guid transactionId)
         {
             try
             {

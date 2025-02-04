@@ -1,4 +1,6 @@
 ﻿using FinanceFusion.Controllers;
+using FinanceFusion.Feeders;
+using FinanceFusion.Helpers;
 using FinanceFusion.Models;
 
 namespace FinanceFusion.Forms
@@ -32,9 +34,19 @@ namespace FinanceFusion.Forms
         /// 
         public ExpenseForm()
         {
-            InitializeComponent();
-            FundController.LoadTables(ref dataGridView1, 2);
-            FundController.LoadCategories(ref this.ExCateBox, 2);
+            if (SessionHelper.user == null)
+            {
+                MessageBox.Show("Login to view page");
+                LoginForm lf = new LoginForm("");
+                lf.Show();
+                return;
+            }
+            else
+            {
+                InitializeComponent();
+                FundController.LoadTables(ref dataGridView1, 2);
+                FundController.LoadCategories(ref this.ExCateBox, 2);
+            }
         }
         private void InitializeComponent()
         {
@@ -173,8 +185,8 @@ namespace FinanceFusion.Forms
             // 
             // button4
             // 
-            button4.BackColor = Color.FromArgb(20, 53, 197);
-            button4.ForeColor = Color.FromArgb(255, 255, 255);
+            button4.BackColor = Theme.BtnColor;
+            button4.ForeColor = Theme.BtnTxtColor;
             button4.Location = new Point(425, 181);
             button4.Name = "button4";
             button4.Size = new Size(94, 29);
@@ -185,8 +197,8 @@ namespace FinanceFusion.Forms
             // 
             // button3
             // 
-            button3.BackColor = Color.FromArgb(20, 53, 197);
-            button3.ForeColor = Color.FromArgb(255, 255, 255);
+            button3.BackColor = Theme.BtnColor;
+            button3.ForeColor = Theme.BtnTxtColor;
             button3.Location = new Point(306, 181);
             button3.Name = "button3";
             button3.Size = new Size(94, 29);
@@ -197,8 +209,8 @@ namespace FinanceFusion.Forms
             // 
             // button2
             // 
-            button2.BackColor = Color.FromArgb(20, 53, 197);
-            button2.ForeColor = Color.FromArgb(255, 255, 255);
+            button2.BackColor = Theme.BtnColor;
+            button2.ForeColor = Theme.BtnTxtColor;
             button2.Location = new Point(181, 181);
             button2.Name = "button2";
             button2.Size = new Size(94, 29);
@@ -209,8 +221,8 @@ namespace FinanceFusion.Forms
             // 
             // button1
             // 
-            button1.BackColor = Color.FromArgb(20, 53, 197);
-            button1.ForeColor = Color.FromArgb(255, 255, 255);
+            button1.BackColor = Theme.BtnColor;
+            button1.ForeColor = Theme.BtnTxtColor;
             button1.Location = new Point(59, 181);
             button1.Name = "button1";
             button1.Size = new Size(94, 29);
@@ -340,7 +352,7 @@ namespace FinanceFusion.Forms
         {
             if (ValidateInputs())
             {
-                int transactionId = Convert.ToInt32(ExIdBox.Text.ToString());
+                Guid transactionId = Guid.Parse(ExIdBox.Text.ToString());
 
                 TransactionModel updatedTransaction = new TransactionModel
                 {
@@ -365,7 +377,7 @@ namespace FinanceFusion.Forms
         {
             if (ExIdBox.Text != "")
             {
-                int transactionId = Convert.ToInt32(ExIdBox.Text.ToString());
+                Guid transactionId = Guid.Parse(ExIdBox.Text.ToString());
 
                 DialogResult result = MessageBox.Show("Are you sure you want to delete this transaction?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
 
