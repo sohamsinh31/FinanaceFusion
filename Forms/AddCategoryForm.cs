@@ -151,31 +151,13 @@ namespace FinanceFusion.Forms
                 MessageBox.Show("Invalid category type. Please select a valid type.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+            CategoryModel cm = new CategoryModel();
+            cm.CategoryName = categoryName;
+            cm.TypeId = categoryTypeId;
+            cm.CreatedDateTime = dateTimePicker1.Value;
 
-            using (NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO t_categories (c_category_name, c_user_id, c_type_id, c_is_active, c_date_created) VALUES (@name, @userid, @type, @isActive, @date)", con))
-            {
-                try
-                {
-                    con.Open();
-                    cmd.Parameters.AddWithValue("@name", categoryName);
-                    cmd.Parameters.AddWithValue("@type", categoryTypeId);
-                    cmd.Parameters.AddWithValue("@userid", 1);
-                    cmd.Parameters.AddWithValue("@date", dateTimePicker1.Value);
-                    cmd.Parameters.AddWithValue("@isActive", true);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Category added successfully!");
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                finally
-                {
-                    con.Close();
-                    CategoryController.LoadData(ref CategoryData);
-
-                }
-            }
+            CategoryController.AddData(cm);
+            CategoryController.LoadData(ref CategoryData);
         }
 
         private void button1_Click(object sender, EventArgs e)

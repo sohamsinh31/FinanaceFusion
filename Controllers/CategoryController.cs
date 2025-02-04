@@ -160,5 +160,31 @@ namespace FinanceFusion.Controllers
                 con.Close();
             }
         }
+
+        public static void AddData(CategoryModel cm)
+        {
+            using (NpgsqlCommand cmd = new NpgsqlCommand("INSERT INTO t_categories (c_category_name, c_user_id, c_type_id, c_is_active, c_date_created) VALUES (@name, @userid, @type, @isActive, @date)", con))
+            {
+                try
+                {
+                    con.Open();
+                    cmd.Parameters.AddWithValue("@name", cm.CategoryName);
+                    cmd.Parameters.AddWithValue("@type", cm.TypeId);
+                    cmd.Parameters.AddWithValue("@userid", 1);
+                    cmd.Parameters.AddWithValue("@date", cm.CreatedDateTime);
+                    cmd.Parameters.AddWithValue("@isActive", true);
+                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Category added successfully!");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                finally
+                {
+                    con.Close();
+                }
+            }
+        }
     }
 }
